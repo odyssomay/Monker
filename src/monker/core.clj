@@ -57,19 +57,19 @@
 
 (defn jvector2
   "Create a Vector2f."
-  ([] (Vector2f/ZERO))
+  ([] Vector2f/ZERO)
   ([v] (Vector2f. v v))
   ([x y] (Vector2f. x y)))
 
 (defn jvector3
   "Create a Vector3f."
-  ([] (Vector3f/ZERO))
+  ([] Vector3f/ZERO)
   ([v] (Vector3f. v v v))
   ([x y z] (Vector3f. x y z)))
 
 (defn jvector4
   "Create a Vector4f."
-  ([] (Vector4f/ZERO))
+  ([] Vector4f/ZERO)
   ([v] (Vector4f. v v v v))
   ([x y z w] (Vector4f. x y z w)))
 
