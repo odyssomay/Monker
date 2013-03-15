@@ -48,8 +48,8 @@
 (defn jvector
   "Create a Vector2f, Vector3f or Vector4f.
   
-  The one argument version takes a vector
-  to convert to a jme vector."
+  The one argument version either takes an instance
+  of the above, or a vector to convert."
   ([v]       (if (jvector? v) v (apply jvector v)))
   ([x y]     (Vector2f. x y))
   ([x y z]   (Vector3f. x y z))
@@ -92,7 +92,18 @@
       )))
 
 (defn settings
-  "Create AppSettings."
+  "Create AppSettings.
+  
+  Options:
+   :frame-rate  Max framerate. Default: -1 (no limit).
+   :fullscreen?  Default: false
+   :height  Height of displayed screen in pixels.
+            Default: 640.
+   :width  As above. Default: 480.
+   :title  Title of the window shown (only if application
+           has :context-type :display - the default).
+   :load-defaults  Default: true.
+  "
   [& {:as args}]
   (let [{:keys [load-defaults]
          :or {load-defaults true}} args
@@ -115,13 +126,13 @@
   (configure [app params]
     (configure-helper
       params param
+      :context-type nil
+      :init nil
       :show-fps (.setDisplayFps app param)
       :show-statistics (.setDisplayStatView app param)
       :show-settings (.setShowSettings app param)
       :settings (.setSettings app (param->settings param))
-      :init nil
       :update nil
-      :context-type nil
       )))
 
 (defn- jme-app-type [type]
@@ -134,7 +145,40 @@
 (defn application
   "Create a SimpleApplication
   
-  Options:"
+  The :init option is required.
+  The app should only be referenced from this function,
+  or the :update function.
+  
+  The app is started and then returned. The :init and :update
+  functions run in a separate thread.
+  
+  jme is not thread-safe, therefore is it important that changes
+  are always executed in the application's thread. This can be
+  achieved either by executing the change from the :init or :update
+  functions, as these already run in the correct thread. From another
+  thread, monker.core/run-in-app can be used.
+  
+  Options:
+   :context-type  One of:
+                  :headless
+                  :display
+                  :canvas
+                  :offscreen
+                  
+   :init  REQUIRED
+          Function to run when the application
+          has been started (with start!).
+          Should take the app as argument.
+          
+   :show-fps  Default: true
+   
+   :show-statistics  Default: true
+   
+   :show-settings
+   
+   :update  Function to run when updating the application.
+            Should take two arguments: the app and a float
+  "
   [& {:as args}]
   (let [{:keys [init update context-type]
          :or {update (fn [& _])
@@ -154,7 +198,7 @@
                ":init argument is required")))))
 
 (defn asset-manager
-  ""
+  "Get the asset manager of app"
   [app] (.getAssetManager app))
 
 (defn start!
@@ -162,7 +206,7 @@
   [app] (.start app))
 
 (defmacro run-in-app
-  "Execute on the app's thread."
+  "Execute body on the app's thread."
   [app & body]
   `(.enqueue app (fn [] ~@body)))
 
@@ -173,11 +217,18 @@
 
 (extend-type Material
   Configurable
-  (configure [this params] (println params))
+  (configure [this params])
   )
 
 (defn material
-  ""
+  "Create a Material
+  The [mat & options] version clones the supplied material
+  and applies the options to the new clone.
+  
+  Options: 
+  "
+  {:arglists '([app path & options]
+               [mat & options])}
   ([& args]
    (match args
      [(app :guard app?)
@@ -192,7 +243,7 @@
 ;; Color
 ;; =====
 (defn color
-  ""
+  "Create a ColorRGBA"
   ([r g b] (color r g b 1.0))
   ([r g b a]
    (com.jme3.math.ColorRGBA. r g b a)))
@@ -238,14 +289,26 @@
 ;; Shape
 ;; =====
 (defn box
-  ""
+  "Create a Box
+  Should be treated as a mesh.
+  
+  The box is extended x y and z in each direction
+  from the center.
+  "
   [x y z] (Box. x y z))
+
 (defn sphere
-  ""
+  "Create a Sphere
+  Should be treated as a mesh.
+  "
   [z-samples radial-samples radius]
   (Sphere. z-samples radial-samples radius))
 (defn line
-  ""
+  "Create a Line
+  Should be treated as a mesh.
+  
+  start and end 
+  "
   ([] (Line.))
   ([start end]
    (Line. (jvector start) (jvector end))))
