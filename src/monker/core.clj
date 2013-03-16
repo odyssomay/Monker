@@ -1,5 +1,4 @@
 (ns monker.core
-  (:use [clojure.core.match :only [match]])
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
            com.jme3.app.SimpleApplication
            com.jme3.system.AppSettings
@@ -222,22 +221,14 @@
 
 (defn material
   "Create a Material
-  The [mat & options] version clones the supplied material
-  and applies the options to the new clone.
   
   Options: 
   "
   {:arglists '([app path & options]
-               [mat & options])}
-  ([& args]
-   (match args
-     [(app :guard app?)
-      (path :guard string?)
-      & {:as params}] (conf-int (Material. (asset-manager app) path)
-                                params)
-     [(mat :guard material?)
-      & {:as params}] (conf-int (.clone mat) params)
-     :else (no-args-error))))
+               [asset-manager path & options])}
+  [app path & {:as options}]
+  (conf-int (Material. (asset-manager app) path)
+            options))
 
 ;; =====
 ;; Color
@@ -267,15 +258,12 @@
   {:arglists '([name mesh & options]
                [mesh & options])}
   [& args]
-  (match args
-    [(name :guard string?)
-     (mesh :guard mesh?)
-     & {:as params}] (conf-int (Geometry. name mesh)
-                               params)
-    [(mesh :guard mesh?)
-     & {:as params}] (conf-int (Geometry. (str (gensym)) mesh)
-                               params)
-    ))
+  (let [[name mesh & {:as options}]
+        (if (string? (first args))
+          args
+          (cons (str (gensym)) args))]
+    (conf-int (Geometry. name mesh)
+              options)))
 
 ;; =====
 ;; Node
