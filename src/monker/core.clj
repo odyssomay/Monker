@@ -282,7 +282,7 @@
 ;; =====
 ;; Geometry
 ;; =====
-(extend-type Mesh
+(extend-type Geometry
   Configurable
   (configure [mesh params]
     (configure-helper 
