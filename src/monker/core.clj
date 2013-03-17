@@ -212,15 +212,42 @@
   (instance? com.jme3.asset.AssetManager obj))
 
 (defn asset-manager
-  "If an asset manager is provided,
-  it's simply returned. Otherwise get
-  the asset manager."
+  "Takes either an
+  
+    com.jme3.asset.AssetManager
+  or
+    com.jme3.app.Application
+  
+  and returns an object of the first type.
+  "
   {:arglists '([asset-manager]
                [app])}
   [obj]
   (if (asset-manager? obj)
     obj
-    (.getAssetManager app)))
+    (.getAssetManager obj)))
+
+(defn load-model
+  "Returns a Spatial.
+  
+  asset-manager is anything that goes into
+  monker.core/asset-manager."
+  {:arglists '([asset-manager path & options])}
+  [am-obj path & {:as options}]
+  (let [am (asset-manager am-obj)]
+    (conf-int (.loadModel am path)
+              options)))
+
+(defn load-audio
+  "Returns AudioData.
+  
+  asset-manager is anything that goes into
+  monker.core/asset-manager."
+  {:arglists '([asset-manager path & options])}
+  [am-obj path & {:as options}]
+  (let [am (asset-manager am-obj)]
+    (conf-int (.loadAudio am path)
+              options)))
 
 ;; =====
 ;; Material
@@ -235,7 +262,7 @@
 (defn material
   "Create a Material
   
-  Options: 
+  Options:
   "
   {:arglists '([app path & options]
                [asset-manager path & options])}
