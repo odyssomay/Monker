@@ -196,10 +196,6 @@
       (throw (IllegalArgumentException.
                ":init argument is required")))))
 
-(defn asset-manager
-  "Get the asset manager of app"
-  [app] (.getAssetManager app))
-
 (defn start!
   "Start app."
   [app] (.start app))
@@ -208,6 +204,23 @@
   "Execute body on the app's thread."
   [app & body]
   `(.enqueue app (fn [] ~@body)))
+
+;; =====
+;; Asset Manager
+;; =====
+(defn asset-manager? [obj]
+  (instance? com.jme3.asset.AssetManager obj))
+
+(defn asset-manager
+  "If an asset manager is provided,
+  it's simply returned. Otherwise get
+  the asset manager."
+  {:arglists '([asset-manager]
+               [app])}
+  [obj]
+  (if (asset-manager? obj)
+    obj
+    (.getAssetManager app)))
 
 ;; =====
 ;; Material
