@@ -3,7 +3,7 @@
            com.jme3.app.SimpleApplication
            com.jme3.system.AppSettings
            com.jme3.material.Material
-           (com.jme3.scene Geometry Mesh)
+           (com.jme3.scene Geometry Mesh Spatial)
            com.jme3.scene.Node
            (com.jme3.scene.shape Box Sphere Line)))
 
@@ -302,13 +302,14 @@
 ;; =====
 ;; Geometry
 ;; =====
-(extend-type Geometry
+(extend-type Spatial
   Configurable
-  (configure [mesh params]
+  (configure [s params]
     (configure-helper 
       params param
-      :translation (.setLocalTranslation mesh (jvector param))
-      :scale (.setLocalScale mesh (jvector3 param))
+      :translation (.setLocalTranslation s (jvector param))
+      :scale (.setLocalScale s (jvector3 param))
+      :material (.setMaterial s param)
       )))
 
 (defn mesh? [obj] (instance? Mesh obj))
