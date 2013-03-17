@@ -256,8 +256,14 @@
 
 (extend-type Material
   Configurable
-  (configure [this params])
-  )
+  (configure [this params]
+    (configure-helper
+      params param
+      :colors (doseq [[color-name color] param]
+                (.setColor this color-name color))
+      :textures (doseq [[texture-name texture] param]
+                  (.setTexture this texture-name texture))
+      )))
 
 (defn material
   "Create a Material
