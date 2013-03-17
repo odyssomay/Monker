@@ -276,6 +276,20 @@
   (conf-int (Material. (asset-manager app) path)
             options))
 
+(defn lit-material
+  ""
+  [app texture-map]
+  (let [textures (for [[k path] texture-map]
+                   [(case k
+                      :diffuse "DiffuseMap"
+                      :specular "SpecularMap"
+                      :normal "NormalMap")
+                    (.loadTexture (asset-manager app)
+                                  path)])
+        ]
+    (material app "Common/MatDefs/Light/Lighting.j3md"
+              :textures textures)))
+
 ;; =====
 ;; Color
 ;; =====
