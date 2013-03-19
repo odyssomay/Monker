@@ -2,8 +2,6 @@
   (:import (com.jme3.input.controls KeyTrigger)
            (com.jme3.input KeyInput)))
 
-(defn into-trigger [trigger]
-  )
 (defmacro ki [ch]
   (symbol (str "KeyInput/KEY_" ch)))
 
@@ -59,3 +57,21 @@
       )))
 
 (defn- add-input-listeners [im listener-map])
+
+(defn trigger
+  ""
+  {}
+  [tr]
+  (cond
+    (instance? Trigger tr) tr
+    (string? tr) (key-trigger tr)
+    (sequential? tr)
+    (let [[type v] tr]
+      (case type
+        :key (key-trigger v)
+        :mouse (mouse-trigger v)
+        :joy (joy-trigger v)
+        (util/arg-err
+          (str "first element must be one of: "
+               ":key :mouse :joy, but got instead: "
+               type))))))
