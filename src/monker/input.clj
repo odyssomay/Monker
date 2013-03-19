@@ -1,6 +1,12 @@
 (ns monker.input
-  (:import (com.jme3.input.controls KeyTrigger)
-           (com.jme3.input KeyInput)))
+  (:import (com.jme3.input.controls
+             JoyAxisTrigger
+             JoyButtonTrigger
+             KeyTrigger
+             MouseAxisTrigger
+             MouseButtonTrigger)
+           (com.jme3.input
+             JoyInput KeyInput MouseInput)))
 
 (defmacro ki [ch]
   (symbol (str "KeyInput/KEY_" ch)))
