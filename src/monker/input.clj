@@ -1,4 +1,6 @@
-(ns monker.input)
+(ns monker.input
+  (:import (com.jme3.input.controls KeyTrigger)
+           (com.jme3.input KeyInput)))
 
 (defn into-trigger [trigger]
   )
