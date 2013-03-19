@@ -2,10 +2,58 @@
 
 (defn into-trigger [trigger]
   )
+(defmacro ki [ch]
+  (symbol (str "KeyInput/KEY_" ch)))
 
 (defn- add-input-mappings [im mappings-map]
   (doseq [[k trigger]]
     (.addMapping im (name k) (into-trigger trigger))
     ))
+(defn key-trigger [ch]
+  (KeyTrigger.
+    (case ch
+      "A" (ki \A)
+      "B" (ki \B)
+      "C" (ki \C)
+      "D" (ki \D)
+      "E" (ki \E)
+      "F" (ki \F)
+      "G" (ki \G)
+      "H" (ki \H)
+      "I" (ki \I)
+      "J" (ki \J)
+      "K" (ki \K)
+      "L" (ki \L)
+      "M" (ki \M)
+      "N" (ki \N)
+      "O" (ki \O)
+      "P" (ki \P)
+      "Q" (ki \Q)
+      "R" (ki \R)
+      "S" (ki \S)
+      "T" (ki \T)
+      "U" (ki \U)
+      "V" (ki \V)
+      "W" (ki \W)
+      "X" (ki \X)
+      "Y" (ki \Y)
+      "Z" (ki \Z)
+      "0" (ki \0)
+      "1" (ki \1)
+      "2" (ki \2)
+      "3" (ki \3)
+      "4" (ki \4)
+      "5" (ki \5)
+      "6" (ki \6)
+      "7" (ki \7)
+      "8" (ki \8)
+      "9" (ki \9)
+      "0" (ki \0)
+      "escape" (ki "ESCAPE")
+      "up" (ki "UP")
+      "down" (ki "DOWN")
+      "left" (ki "LEFT")
+      "right" (ki "RIGHT")
+      )))
 
 (defn- add-input-listeners [im listener-map])
