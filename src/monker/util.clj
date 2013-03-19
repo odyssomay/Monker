@@ -1,5 +1,5 @@
 (ns monker.util)
 
-(defn arg-err [err]
+(defn arg-err [& err]
   (throw (IllegalArgumentException.
-           err)))
+           (apply println-str err))))
