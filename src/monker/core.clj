@@ -1,4 +1,5 @@
 (ns monker.core
+  (:require (monker [input :as input]))
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
            com.jme3.app.SimpleApplication
            com.jme3.system.AppSettings
@@ -248,6 +249,18 @@
   (let [am (asset-manager am-obj)]
     (conf-int (.loadAudio am path)
               options)))
+
+;; =====
+;; Input manager
+;; =====
+(extend-type com.jme3.input.InputManager
+  Configurable
+  (configure [this params]
+    (configure-helper
+      params param
+      :mappings (input/add-input-mappings this param)
+      :listeners (input/add-input-listeners this param)
+      )))
 
 ;; =====
 ;; Material
