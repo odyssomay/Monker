@@ -5,10 +5,6 @@
 (defmacro ki [ch]
   (symbol (str "KeyInput/KEY_" ch)))
 
-(defn- add-input-mappings [im mappings-map]
-  (doseq [[k trigger]]
-    (.addMapping im (name k) (into-trigger trigger))
-    ))
 (defn key-trigger [ch]
   (KeyTrigger.
     (case ch
@@ -56,7 +52,9 @@
       "right" (ki "RIGHT")
       )))
 
-(defn- add-input-listeners [im listener-map])
+(defn mouse-trigger [v])
+
+(defn joy-trigger [v])
 
 (defn trigger
   ""
@@ -75,3 +73,17 @@
           (str "first element must be one of: "
                ":key :mouse :joy, but got instead: "
                type))))))
+
+(defn add-input-mappings
+  ""
+  {:arglists '([app mappings]
+               [input-manager mappings])}
+  [im mappings]
+  (doseq [[k trigger] mappings]
+    (.addMapping im (name k) (trigger trigger))))
+
+(defn add-input-listeners
+  ""
+  {:arglists '([app listeners]
+               [input-manager listeners])}
+  [im listeners])
