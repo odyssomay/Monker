@@ -58,9 +58,30 @@
       "right" (ki "RIGHT")
       )))
 
-(defn mouse-trigger [v])
+(defn mouse-axis-trigger [axis direction]
+  (MouseAxisTrigger.
+    (case axis
+      :x MouseInput/AXIS_X
+      :y MouseInput/AXIS_Y
+      :wheel MouseInput/AXIS_WHEEL)
+    (case direction
+      :positive false
+      :negative true)))
 
-(defn joy-trigger [v])
+(defn mouse-button-trigger [button]
+  (MouseButtonTrigger.
+    (case button
+      :left MouseInput/BUTTON_LEFT
+      :right MouseInput/BUTTON_RIGHT
+      :middle MouseInput/BUTTEN_MIDDLE)))
+
+(defn mouse-trigger [type & args]
+  (case type
+    :axis (apply mouse-axis-trigger args)
+    :button (apply mouse-button-trigger args)
+    (util/arg-err
+      "type must be one of: :axis :button,"
+      "but got instead:" type)))
 
 (defn trigger
   ""
