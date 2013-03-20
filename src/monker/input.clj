@@ -271,11 +271,12 @@
                [input-manager mappings])}
   [im mappings]
   (let [im (input-manager im)]
-    (doseq [[k trigger] mappings]
+    (doseq [[k triggers] mappings]
       (if-not (keyword? k)
         (util/arg-err
           "mapping key must be a keyword. Got:" (pr-str k)))
-      (.addMapping im (name k) (trigger trigger)))))
+      (.addMapping im (name k)
+                   (into-array Trigger (map trigger triggers))))))
 
 (defn action-listener
   ""
