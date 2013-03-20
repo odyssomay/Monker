@@ -8,7 +8,16 @@
              MouseButtonTrigger
              Trigger)
            (com.jme3.input
+             InputManager
              JoyInput KeyInput MouseInput)))
+
+(defn input-manager
+  ""
+  {}
+  [im]
+  (if (instance? InputManager im)
+    im
+    (.getInputManager im)))
 
 (defmacro ki {:private true} [ch]
   (symbol (str "KeyInput/KEY_" ch)))
@@ -175,11 +184,12 @@
   {:arglists '([app mappings]
                [input-manager mappings])}
   [im mappings]
-  (doseq [[k trigger] mappings]
-    (if-not (keyword? k)
-      (util/arg-err
-        "mapping key must be a keyword. Got:" (pr-str k)))
-    (.addMapping im (name k) (trigger trigger))))
+  (let [im (input-manager im)]
+    (doseq [[k trigger] mappings]
+      (if-not (keyword? k)
+        (util/arg-err
+          "mapping key must be a keyword. Got:" (pr-str k)))
+      (.addMapping im (name k) (trigger trigger)))))
 
 (defn add-input-listeners
   "Add listeners to the input manager
