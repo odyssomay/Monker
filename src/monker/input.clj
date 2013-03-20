@@ -1,4 +1,5 @@
 (ns monker.input
+  (:require (monker [util :as util]))
   (:import (com.jme3.input.controls
              JoyAxisTrigger
              JoyButtonTrigger
