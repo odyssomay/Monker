@@ -209,6 +209,16 @@
       (on-analog (keyword action)
                  value tpf))))
 
+(defn add-listeners
+  ""
+  {:arglists '([app listeners]
+               [input-manager listeners])}
+  [im listeners]
+  (let [im (input-manager im)]
+    (doseq [[mappings listener] listeners]
+      (.addListener im listener
+                    (map name mappings)))))
+
 (defn add-action-listeners
   ""
   {:arglists '([app listeners]
