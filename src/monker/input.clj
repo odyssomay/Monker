@@ -224,7 +224,13 @@
   {:arglists '([app listeners]
                [input-manager listeners])}
   [im listeners]
-  )
+  (add-listeners
+    im (for [[mappings listener] listeners]
+         [mappings
+          (cond
+            (instance? ActionListener listener)
+            listener
+            (fn? listener) (action-listener listener))])))
 
 (defn add-analog-listeners
   ""
