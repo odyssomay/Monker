@@ -206,21 +206,7 @@
                  value tpf))))
 
 (defn add-action-listeners
-  "Add listeners to the input manager
-  (or the input manager of the app).
-  
-  listeners is a map where the keys denote
-  the mapping, provided to
-  monker.input/add-input-mappings
-  
-  Example listeners:
-  {:forward ...
-   :backward ...
-   :attack ...
-   :zoom-out ...
-   :zoom-in ...
-   }
-  "
+  ""
   {:arglists '([app listeners]
                [input-manager listeners])}
   [im listeners]
