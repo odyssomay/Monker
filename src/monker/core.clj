@@ -8,10 +8,6 @@
            com.jme3.scene.Node
            (com.jme3.scene.shape Box Sphere Line)))
 
-(defn no-args-error []
-  (throw (IllegalArgumentException.
-           "cannot be called without arguments")))
-
 ;; =====
 ;; Config
 ;; =====
