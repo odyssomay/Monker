@@ -73,7 +73,7 @@
     (case button
       :left MouseInput/BUTTON_LEFT
       :right MouseInput/BUTTON_RIGHT
-      :middle MouseInput/BUTTEN_MIDDLE)))
+      :middle MouseInput/BUTTON_MIDDLE)))
 
 (defn mouse-trigger [type & args]
   (case type
