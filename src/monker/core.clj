@@ -1,4 +1,6 @@
 (ns monker.core
+  (:use [monker.util :only [Configurable
+                            conf-int configure-helper]])
   (:require (monker [input :as input]))
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
            com.jme3.app.SimpleApplication
@@ -7,30 +9,6 @@
            (com.jme3.scene Geometry Mesh Spatial)
            com.jme3.scene.Node
            (com.jme3.scene.shape Box Sphere Line)))
-
-;; =====
-;; Config
-;; =====
-(defprotocol Configurable
-  (configure [this params] ""))
-
-(defn configure-helper* [props clauses]
-  (doseq [[k v] props]
-    (if-let [f (get clauses k nil)]
-      (f v)
-      (throw (IllegalArgumentException.
-               (str k " is not a valid option!"))))))
-
-(defmacro configure-helper [params-sym param-sym & {:as clauses}]
-  `(configure-helper*
-     ~params-sym
-     ~(into {}
-            (for [[k clause] clauses]
-              `[~k (fn [~param-sym] ~clause)]))))
-
-(defn- conf-int [obj params]
-  (configure obj params)
-  obj)
 
 (defn config! [obj & {:as params}] (conf-int obj params))
 
