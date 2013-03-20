@@ -96,10 +96,9 @@
       (case type
         :key (key-trigger v)
         :mouse (apply mouse-trigger (rest args))
-        :joy (apply joy-trigger (rest args))
         (util/arg-err
           (str "first element must be one of: "
-               ":key :mouse :joy, but got instead: "
+               ":key :mouse, but got instead: "
                type))))))
 
 (defn add-input-mappings
