@@ -193,13 +193,17 @@
           "mapping key must be a keyword. Got:" (pr-str k)))
       (.addMapping im (name k) (trigger trigger)))))
 
-(defn action-listener [on-action]
+(defn action-listener
+  ""
+  [on-action]
   (reify ActionListener
     (onAction [this action pressed? tpf]
       (on-action (keyword action)
                  pressed? tpf))))
 
-(defn analog-listener [on-analog]
+(defn analog-listener
+  ""
+  [on-analog]
   (reify AnalogListener
     (onAnalog [this action value tpf]
       (on-analog (keyword action)
