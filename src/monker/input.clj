@@ -28,60 +28,148 @@
   "Create a KeyTrigger.
   
   ch is a string denoting the key trigger
-  to create, which can be any of:
+  to create.
+  
+  Possible arguments:
+  
+  Alphanumerical:
    A-Z
    0-9
-   escape
+   
+  Arrow keys:
    up
    down
    left
    right
+   
+  Keys above arrows:
+   delete
+   end
+   home
+   insert
+   page down
+   page up
+   pause
+   scroll lock
+   
+  Mode keys:
+   lalt
+   ralt
+   lcontrol
+   rcontrol
+   lmeta (\"windows\" key)
+   rmeta
+   lshift
+   rshift
+  
+  Numpad:
+   num + space + 0-9
+    Example: \"num 3\"
+   num add
+   num comma
+   num enter
+   num equals
+   num lock
   "
   [ch]
-  (KeyTrigger.
-    (case ch
-      "A" (ki \A)
-      "B" (ki \B)
-      "C" (ki \C)
-      "D" (ki \D)
-      "E" (ki \E)
-      "F" (ki \F)
-      "G" (ki \G)
-      "H" (ki \H)
-      "I" (ki \I)
-      "J" (ki \J)
-      "K" (ki \K)
-      "L" (ki \L)
-      "M" (ki \M)
-      "N" (ki \N)
-      "O" (ki \O)
-      "P" (ki \P)
-      "Q" (ki \Q)
-      "R" (ki \R)
-      "S" (ki \S)
-      "T" (ki \T)
-      "U" (ki \U)
-      "V" (ki \V)
-      "W" (ki \W)
-      "X" (ki \X)
-      "Y" (ki \Y)
-      "Z" (ki \Z)
-      "0" (ki \0)
-      "1" (ki \1)
-      "2" (ki \2)
-      "3" (ki \3)
-      "4" (ki \4)
-      "5" (ki \5)
-      "6" (ki \6)
-      "7" (ki \7)
-      "8" (ki \8)
-      "9" (ki \9)
-      "escape" (ki "ESCAPE")
-      "up" (ki "UP")
-      "down" (ki "DOWN")
-      "left" (ki "LEFT")
-      "right" (ki "RIGHT")
-      )))
+  (let [ch (if (char? ch) (str ch) ch)
+        ch (.toLowerCase ch)]
+    (KeyTrigger.
+      (case ch
+        ; alphanumerical
+        "a" (ki \A)
+        "b" (ki \B)
+        "c" (ki \C)
+        "d" (ki \D)
+        "e" (ki \E)
+        "f" (ki \F)
+        "g" (ki \G)
+        "h" (ki \H)
+        "i" (ki \I)
+        "j" (ki \J)
+        "k" (ki \K)
+        "l" (ki \L)
+        "m" (ki \M)
+        "n" (ki \N)
+        "o" (ki \O)
+        "p" (ki \P)
+        "q" (ki \Q)
+        "r" (ki \R)
+        "s" (ki \S)
+        "t" (ki \T)
+        "u" (ki \U)
+        "v" (ki \V)
+        "w" (ki \W)
+        "x" (ki \X)
+        "y" (ki \Y)
+        "z" (ki \Z)
+        "0" (ki \0)
+        "1" (ki \1)
+        "2" (ki \2)
+        "3" (ki \3)
+        "4" (ki \4)
+        "5" (ki \5)
+        "6" (ki \6)
+        "7" (ki \7)
+        "8" (ki \8)
+        "9" (ki \9)
+        ; keys above arrows
+        "escape" (ki "ESCAPE")
+        "insert" (ki "INSERT")
+        "home" (ki "HOME")
+        "delete" (ki "DELETE")
+        "end" (ki "END")
+        "scroll lock" (ki "SCROLL")
+        "pause" (ki "PAUSE")
+        "page down" (ki "PGDN")
+        "page up" (ki "PGUP")
+        ; arrow keys
+        "up" (ki "UP")
+        "down" (ki "DOWN")
+        "left" (ki "LEFT")
+        "right" (ki "RIGHT")
+        ; mode keys
+        "lalt" (ki "LMENU")
+        "ralt" (ki "RMENU")
+        "lcontrol" (ki "LCONTROL")
+        "rcontrol" (ki "RCONTROL")
+        "lmeta" (ki "LMETA")
+        "rmeta" (ki "RMETA")
+        "lshift" (ki "LSHIFT")
+        "rshift" (ki "RSHIFT")
+        ; numpad keys
+        "num 0" (ki "NUMPAD0")
+        "num 1" (ki "NUMPAD1")
+        "num 2" (ki "NUMPAD2")
+        "num 3" (ki "NUMPAD3")
+        "num 4" (ki "NUMPAD4")
+        "num 5" (ki "NUMPAD5")
+        "num 6" (ki "NUMPAD6")
+        "num 7" (ki "NUMPAD7")
+        "num 8" (ki "NUMPAD8")
+        "num 9" (ki "NUMPAD9")
+        "num add" (ki "ADD")
+        "num comma" (ki "NUMPADCOMMA")
+        "num enter" (ki "NUMPADENTER")
+        "num equals" (ki "NUMPADEQUALS")
+        "num lock" (ki "NUMLOCK")
+        ; function keys
+        "F1" (ki "F1")
+        "F2" (ki "F2")
+        "F3" (ki "F3")
+        "F4" (ki "F4")
+        "F5" (ki "F5")
+        "F6" (ki "F6")
+        "F7" (ki "F7")
+        "F8" (ki "F8")
+        "F9" (ki "F9")
+        "F10" (ki "F10")
+        "F11" (ki "F11")
+        "F12" (ki "F12")
+        "F13" (ki "F13")
+        "F14" (ki "F14")
+        "F15" (ki "F15")
+        ))))
 
 (defn mouse-axis-trigger [axis direction]
   (MouseAxisTrigger.
