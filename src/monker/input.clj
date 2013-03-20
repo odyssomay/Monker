@@ -14,8 +14,8 @@
              JoyInput KeyInput MouseInput)))
 
 (defn input-manager
-  ""
-  {}
+  "Convert argument to an InputManager."
+  {:arglists '([app] [input-manager])}
   [im]
   (if (instance? InputManager im)
     im
