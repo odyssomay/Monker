@@ -302,7 +302,7 @@
   (let [im (input-manager im)]
     (doseq [[mappings listener] listeners]
       (.addListener im listener
-                    (map name mappings)))))
+                    (into-array String (map name mappings))))))
 
 (defn- add-listeners-helper
   [im listeners interface into-listener]
