@@ -8,7 +8,7 @@
            (com.jme3.input
              JoyInput KeyInput MouseInput)))
 
-(defmacro ki [ch]
+(defmacro ki {:private true} [ch]
   (symbol (str "KeyInput/KEY_" ch)))
 
 (defn key-trigger [ch]
