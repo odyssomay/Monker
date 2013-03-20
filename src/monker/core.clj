@@ -259,7 +259,8 @@
     (configure-helper
       params param
       :mappings (input/add-input-mappings this param)
-      :listeners (input/add-input-listeners this param)
+      :action-listeners (input/add-action-listeners this param)
+      :analog-listeners (input/add-analog-listeners this param)
       )))
 
 (def input-manager input/input-manager)
