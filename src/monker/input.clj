@@ -242,7 +242,11 @@
         (util/arg-err
           (str "first element must be one of: "
                ":key :mouse, but got instead: "
-               type))))))
+               type))))
+    :else (util/arg-err
+            "incorrect argument to monker.input/trigger,"
+            "see docstring for usage.")
+    ))
 
 (defn add-input-mappings
   "Add input mappings to the input manager
