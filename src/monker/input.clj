@@ -131,9 +131,6 @@
   
   If argument is a Trigger, it is returned.
   
-  If argument is an Input (e.g. KeyInput, MouseInput),
-  A trigger is created from the input.
-  
   If the argument is a string (key), a key-trigger
   is created. See monker.input/key-trigger for details.
   
@@ -143,7 +140,6 @@
   or monker.input/mouse-trigger, respectively.
   "
   {:arglists '([trigger]
-               [input]
                [key]
                [[type & args]])}
   [tr]
