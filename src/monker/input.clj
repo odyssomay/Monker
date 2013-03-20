@@ -219,21 +219,32 @@
       (.addListener im listener
                     (map name mappings)))))
 
+(defn- add-listeners-helper
+  [im listeners interface into-listener]
+  (add-listeners
+    im (for [[mappings listener] listeners]
+         [mappings
+          (cond
+            (instance? interface listener)
+            listener
+            (fn? listener) (into-listener listener))])))
+
 (defn add-action-listeners
   ""
   {:arglists '([app listeners]
                [input-manager listeners])}
   [im listeners]
-  (add-listeners
-    im (for [[mappings listener] listeners]
-         [mappings
-          (cond
-            (instance? ActionListener listener)
-            listener
-            (fn? listener) (action-listener listener))])))
+  (add-listeners-helper
+    im listeners
+    ActionListener
+    action-listener))
 
 (defn add-analog-listeners
   ""
-  {}
+  {:arglists '([app listeners]
+               [input-manager listeners])}
   [im listeners]
-  )
+  (add-listeners-helper
+    im listeners
+    AnalogListener
+    analog-listener))
