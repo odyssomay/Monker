@@ -373,25 +373,3 @@
   ([] (Line.))
   ([start end]
    (Line. (jvector start) (jvector end))))
-
-;; =====
-;; Testing
-;; =====
-(defn test-it []
-  (.setLevel (java.util.logging.Logger/getLogger "")
-             java.util.logging.Level/WARNING)
-  (application 
-    :init (fn [app] (println "init!"))
-    :show-fps true)
-  )
-
-;(test-it)
-
-; (use 'clojure.pprint)
-
-; (pprint (macroexpand-1
-;           '(configure-helper 
-;             params-bla param2
-;             :translation (.setLocalTranslation mesh (jvector param))
-;             :scale       (.setLocalScale mesh (jvector3 v))
-;             )))
