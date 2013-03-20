@@ -5,7 +5,8 @@
              JoyButtonTrigger
              KeyTrigger
              MouseAxisTrigger
-             MouseButtonTrigger)
+             MouseButtonTrigger
+             Trigger)
            (com.jme3.input
              JoyInput KeyInput MouseInput)))
 
