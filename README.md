@@ -1,6 +1,7 @@
 # Monker
 
-## Usage
+Monker is under development, but the initial
+api can be found [here](http://odyssomay.github.com/Monker/doc/index.html).
 
 ## License
 
