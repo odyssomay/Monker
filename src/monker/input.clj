@@ -176,6 +176,9 @@
                [input-manager mappings])}
   [im mappings]
   (doseq [[k trigger] mappings]
+    (if-not (keyword? k)
+      (util/arg-err
+        "mapping key must be a keyword. Got:" (pr-str k)))
     (.addMapping im (name k) (trigger trigger))))
 
 (defn add-input-listeners
