@@ -262,6 +262,8 @@
       :listeners (input/add-input-listeners this param)
       )))
 
+(def input-manager input/input-manager)
+
 ;; =====
 ;; Material
 ;; =====
