@@ -50,7 +50,6 @@
       "7" (ki \7)
       "8" (ki \8)
       "9" (ki \9)
-      "0" (ki \0)
       "escape" (ki "ESCAPE")
       "up" (ki "UP")
       "down" (ki "DOWN")
