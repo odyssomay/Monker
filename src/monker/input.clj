@@ -1,6 +1,8 @@
 (ns monker.input
   (:require (monker [util :as util]))
   (:import (com.jme3.input.controls
+             ActionListener
+             AnalogListener
              JoyAxisTrigger
              JoyButtonTrigger
              KeyTrigger
@@ -191,7 +193,19 @@
           "mapping key must be a keyword. Got:" (pr-str k)))
       (.addMapping im (name k) (trigger trigger)))))
 
-(defn add-input-listeners
+(defn action-listener [on-action]
+  (reify ActionListener
+    (onAction [this action pressed? tpf]
+      (on-action (keyword action)
+                 pressed? tpf))))
+
+(defn analog-listener [on-analog]
+  (reify AnalogListener
+    (onAnalog [this action value tpf]
+      (on-analog (keyword action)
+                 value tpf))))
+
+(defn add-action-listeners
   "Add listeners to the input manager
   (or the input manager of the app).
   
@@ -209,5 +223,11 @@
   "
   {:arglists '([app listeners]
                [input-manager listeners])}
+  [im listeners]
+  )
+
+(defn add-analog-listeners
+  ""
+  {}
   [im listeners]
   )
