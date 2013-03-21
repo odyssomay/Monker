@@ -242,6 +242,21 @@
 (def input-manager input/input-manager)
 
 ;; =====
+;; Color
+;; =====
+(defn color
+  "Create a ColorRGBA"
+  ([c] (cond
+         (instance? com.jme3.math.ColorRGBA c) c
+         (sequential? c) (apply color c)
+         (number? c) (color c c c)
+         :else (util/arg-err
+                 "Cannot convert" c "to color.")))
+  ([r g b] (color r g b 1.0))
+  ([r g b a]
+   (com.jme3.math.ColorRGBA. r g b a)))
+
+;; =====
 ;; Material
 ;; =====
 (defn material? [obj] (instance? Material obj))
@@ -282,14 +297,6 @@
     (material app "Common/MatDefs/Light/Lighting.j3md"
               :textures textures)))
 
-;; =====
-;; Color
-;; =====
-(defn color
-  "Create a ColorRGBA"
-  ([r g b] (color r g b 1.0))
-  ([r g b a]
-   (com.jme3.math.ColorRGBA. r g b a)))
 
 ;; =====
 ;; Geometry
