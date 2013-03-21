@@ -1,6 +1,8 @@
 (ns monker.core
-  (:use [monker.util :only [Configurable
-                            conf-int configure-helper]])
+  (:use [monker.util
+         :only [Configurable
+                conf-int configure-helper]
+         :as util])
   (:require (monker [input :as input]))
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
            com.jme3.app.SimpleApplication
