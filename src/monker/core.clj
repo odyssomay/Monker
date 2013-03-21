@@ -297,6 +297,11 @@
     (material app "Common/MatDefs/Light/Lighting.j3md"
               :textures textures)))
 
+(defn simple-material
+  ""
+  [app c]
+  (material app "Common/MatDefs/Misc/Unshaded.j3md"
+            :colors [["Color" (color c)]]))
 
 ;; =====
 ;; Geometry
