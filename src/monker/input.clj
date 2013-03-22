@@ -283,7 +283,23 @@
                    (into-array Trigger (map trigger triggers))))))
 
 (defn action-listener
-  ""
+  "Create an ActionListener.
+  
+  on-action should be a function taking three arguments:
+  
+   action - The triggered action, useful if triggered
+            by multiple actions.
+  
+   pressed? - True when the event is \"activated\" and
+              false when \"deactivated\". For example,
+              if it is triggered by a keypress, pressed?
+              will be true when the key is pressed down,
+              and will be false when the key is released.
+              (note that keys fire repeatedly when they
+               are pressed).
+   
+   tpf - Time per frame.
+  "
   [on-action]
   (reify ActionListener
     (onAction [this action pressed? tpf]
@@ -291,7 +307,17 @@
                  pressed? tpf))))
 
 (defn analog-listener
-  ""
+  "Create an AnalogListener.
+  
+  on-analog should be a function taking three arguments:
+  
+   action - The triggered action, useful if triggered
+            by multiple actions.
+            
+   value - Value of the axis, goes from 0 to 1.
+   
+   tpf - Time per frame.
+  "
   [on-analog]
   (reify AnalogListener
     (onAnalog [this action value tpf]
@@ -319,7 +345,19 @@
             (fn? listener) (into-listener listener))])))
 
 (defn add-action-listeners
-  ""
+  "Add action listeners to input manager
+  (or the input manager of app).
+  
+  listeners should be a map
+  where each key is either a single keyword,
+  or a list of keywords. Each keyword denotes
+  which event to listen to (provided to
+  monker.input/add-input-mappings).
+  
+  Values should either be an instance of ActionListener
+  or a function. See monker.input/action-listener for
+  more info on such functions.
+  "
   {:arglists '([app listeners]
                [input-manager listeners])}
   [im listeners]
@@ -329,7 +367,19 @@
     action-listener))
 
 (defn add-analog-listeners
-  ""
+  "Add analog listeners to input manager
+  (or the input manager of app).
+  
+  listeners should be a map
+  where each key is either a single keyword,
+  or a list of keywords. Each keyword denotes
+  which event to listen to (provided to
+  monker.input/add-input-mappings).
+  
+  Values should either be an instance of AnalogListener
+  or a function. See monker.input/analog-listener for
+  more info on such functions.
+  "
   {:arglists '([app listeners]
                [input-manager listeners])}
   [im listeners]
