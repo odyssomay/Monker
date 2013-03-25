@@ -1,4 +1,5 @@
-(ns monker.ui)
+(ns monker.ui
+  (:require (monker [util :as util])))
 
 (defn nifty [app]
   (let [nifty-display (com.jme3.niftygui.NiftyJmeDisplay.
