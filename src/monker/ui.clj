@@ -13,6 +13,23 @@
 (defn from-xml [nifty-display path start-screen]
   (.fromXml (.getNifty nifty-display) path start-screen))
 
+(defn color
+  ([c]
+   (cond
+     (instance? Color c) c
+     (string? c) (Color. c)
+     (number? c) (color c c c)
+     (and (sequential? c)
+          (or (= (count c) 1)
+              (= (count c) 3)
+              (= (count c) 4)))
+     (apply color c)
+     :else (util/arg-err
+             "cannot convert to color:" c)))
+  ([r g b] (color r g b 1.0))
+  ([r g b a] (Color. r g b a))
+  )
+
 (extend-type ElementBuilder
   util/Configurable
   (configure [this params]
