@@ -30,6 +30,30 @@
   ([r g b a] (Color. r g b a))
   )
 
+(defn- margin! [el m]
+  (cond
+    (number? m) (.margin el (str m))
+    (and (sequential? m)
+         (count m 4))
+    (let [[top right bottom left] m]
+      (doto el
+        (.marginTop top)
+        (.marginRight right)
+        (.marginBottom bottom)
+        (.marginLeft left)))))
+
+(defn- padding! [el p]
+  (cond
+    (number? p) (.margin el (str p))
+    (and (sequential? p)
+         (count p 4))
+    (let [[top right bottom left] p]
+      (doto el
+        (.paddingTop top)
+        (.paddingRight right)
+        (.paddingBottom bottom)
+        (.paddingLeft left)))))
+
 (extend-type ElementBuilder
   util/Configurable
   (configure [this params]
