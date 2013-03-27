@@ -122,48 +122,52 @@
         (.paddingBottom bottom)
         (.paddingLeft left)))))
 
+(defn- configure-element-builder
+  [^ElementBuilder this params]
+  (util/configure-helper
+    params param
+    :background (.backgroundColor
+                  this ^Color (color param))
+    :background-image (.backgroundImage this param)
+    :layout (case param
+              :absolute (.childLayoutAbsolute this)
+              :absolute-inside (.childLayoutAbsoluteInside this)
+              :center (.childLayoutCenter this)
+              :horizontal (.childLayoutHorizontal this)
+              :overlay (.childLayoutOverlay this)
+              :vertical (.childLayoutVertical this))
+    :color (.color this ^Color (color param))
+    :control (.control this param)
+    :controller (.controller this param)
+    :focusable? (.focusable this (boolean param))
+    :font (.font this param)
+    :height (.height this (str param))
+    :id (.id this (name param))
+    :inset (.inset this (str param))
+    :margin (margin! this param)
+    :name (.name this param)
+    :padding (padding! this param)
+    :selection-color (.selectionColor
+                       this ^Color (color param))
+    :style (.style this param)
+    :text (.text this param)
+    :visible? (.visible this (boolean param))
+    :width (.width this (str param))
+    :x (.x this (str param))
+    :y (.y this (str param))
+    ))
+
 (extend-type ElementBuilder
   util/Configurable
   (configure [this params]
-    (util/configure-helper
-      params param
-      :background (.backgroundColor
-                    this ^Color (color param))
-      :background-image (.backgroundImage this param)
-      :layout (case param
-                :absolute (.childLayoutAbsolute this)
-                :absolute-inside (.childLayoutAbsoluteInside this)
-                :center (.childLayoutCenter this)
-                :horizontal (.childLayoutHorizontal this)
-                :overlay (.childLayoutOverlay this)
-                :vertical (.childLayoutVertical this))
-      :color (.color this ^Color (color param))
-      :control (.control this param)
-      :controller (.controller this param)
-      :focusable? (.focusable this (boolean param))
-      :font (.font this param)
-      :height (.height this (str param))
-      :id (.id this (name param))
-      :inset (.inset this (str param))
-      :margin (margin! this param)
-      :name (.name this param)
-      :padding (padding! this param)
-      :selection-color (.selectionColor
-                         this ^Color (color param))
-      :style (.style this param)
-      :text (.text this param)
-      :visible? (.visible this (boolean param))
-      :width (.width this (str param))
-      :x (.x this (str param))
-      :y (.y this (str param))
-      )))
+    (configure-element-builder this params)))
 
 (extend-type TextBuilder
   util/Configurable
   (configure [this params]
-    (util/conf-int ^ElementBuilder this
-                   (dissoc params :wrap?))
-    (.wrap this (:wrap? params))))
+    (configure-element-builder
+      this (dissoc params :wrap?))
+    (.wrap this (boolean (:wrap? params)))))
 (extend-type ScreenBuilder
   util/Configurable
   (configure [this params]
