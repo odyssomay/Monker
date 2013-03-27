@@ -318,6 +318,34 @@
           :text  (TextBuilder.))]
     (util/conf-int builder options)))
 
+(declare into-element)
+(defn vec->element
+  ""
+  {:arglists '([v]
+               [v style])}
+  ([v] (vec->element v nil))
+  ([v s]
+   (let [[type & more] v
+         [options & children]
+         (if (map? (first more))
+           more
+           (cons {} more))
+         options (merge {:items (map into-element
+                                     children)}
+                        options)]
+     (apply element type (reduce concat options)))))
+
+(defn into-element
+  ""
+  {:arglists '([element]
+               [element style])}
+  ([el] (into-element el nil))
+  ([el s]
+   (cond
+     (instance? ElementBuilder el) el
+     (vector? el) (vec->element el)
+     :else (util/convert-err el))))
+
 (extend-type ScreenBuilder
   util/Configurable
   (configure [this params]
