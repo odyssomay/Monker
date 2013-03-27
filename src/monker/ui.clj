@@ -29,13 +29,22 @@
       nifty-display)
     :else (util/convert-err obj)))
 
-(defn nifty [^NiftyJmeDisplay nifty-display]
-  (.getNifty nifty-display))
+(defn nifty
+  ""
+  {:arglists '([nifty] [nifty-display])}
+  [obj]
+  (cond
+    (instance? NiftyJmeDisplay obj)
+    (.getNifty ^NiftyJmeDisplay obj)
+    (instance? Nifty obj) obj
+    :else (util/convert-err obj)))
   
 
-(defn from-xml [nifty-display path start-screen]
-  (.fromXml ^de.lessvoid.nifty.Nifty
-            (nifty nifty-display) path start-screen))
+(defn from-xml
+  ""
+  [nifty-display path start-screen]
+  (.fromXml ^Nifty (nifty nifty-display)
+            path start-screen))
 
 ;; =====
 ;; Style
