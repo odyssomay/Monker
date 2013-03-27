@@ -60,8 +60,8 @@
         classes (seq (.split ^String
                              (re-find #"(?<=\.)[^#]+$" n)
                              "\\."))]
-    {:type (reduce str type)
-     :id (reduce str id)
+    {:type type
+     :id id
      :classes classes}))
 
 (defn vec->style [style]
