@@ -65,19 +65,42 @@
      :id id
      :classes classes}))
 
+(declare style)
+(defn vec->style-map [more]
+  (let [{sub-styles true options false}
+        (group-by vector? more)
+        options (reduce (fn [v n]
+                          (if (list? n)
+                            (vec (concat v n))
+                            (conj v n)))
+                        [] options)
+        sub-style (cond
+                    (>= (count sub-styles) 2)
+                    (reduce style sub-styles)
+                    (>= (count sub-styles) 1)
+                    (apply style sub-styles)
+                    :else nil)]
+    {:options (apply hash-map options)
+     :sub-style sub-style
+     }))
+
 (defn vec->style [style]
-  (let [[k & {:as options}] style
-        style-map {:options options}
+  (let [[k & more] style
+        style-map (vec->style-map more)
         {:keys [type id classes]} (split-id-class-keyword k)]
     {:ids (if id (assoc {} id style-map))
      :classes (reduce (fn [m class]
                         (assoc m class style-map))
                       {} classes)}))
 
+(declare merge-styles)
 (defn merge-style-map [sm1 sm2]
-  (let [{opts1 :options} sm1
-        {opts2 :options} sm2]
-    {:options (merge opts1 opts2)}))
+  (let [{opts1 :options
+         sub1 :sub-style} sm1
+        {opts2 :options
+         sub2 :sub-style} sm2]
+    {:options (merge opts1 opts2)
+     :sub-style (merge-styles sub1 sub2)}))
 
 (defn merge-styles [style1 style2]
   (let [{ids1 :ids classes1 :classes} style1
