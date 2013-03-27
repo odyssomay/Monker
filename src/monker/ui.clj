@@ -251,6 +251,10 @@
                        this ^Color (color param))
     :style (.style this param)
     :text (.text this param)
+    :valign (case param
+              :center (.valignCenter this)
+              :bottom (.valignBottom this)
+              :top (.valignBottom this))
     :visible? (.visible this (boolean param))
     :width (.width this (str param))
     :x (.x this (str param))
