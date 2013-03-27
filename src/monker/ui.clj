@@ -1,5 +1,7 @@
 (ns monker.ui
-  (:require (monker [util :as util])))
+  (:require (monker [util :as util]))
+  (:import de.lessvoid.nifty.tools.Color
+           de.lessvoid.nifty.builder.ElementBuilder))
 
 (defn nifty [app]
   (let [nifty-display (com.jme3.niftygui.NiftyJmeDisplay.
