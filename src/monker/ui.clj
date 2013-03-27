@@ -20,9 +20,7 @@
                           (.getGuiViewPort app))]
       (.addProcessor (.getGuiViewPort app) nifty-display)
       nifty-display)
-    :else (util/arg-err
-            "cannot be converted to nifty-display:"
-            obj)))
+    :else (util/convert-err obj)))
 
 (defn nifty [nifty-display]
   (.getNifty nifty-display))
