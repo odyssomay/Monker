@@ -4,6 +4,12 @@
   (throw (IllegalArgumentException.
            (apply println-str err))))
 
+(defn req-err [option]
+  (arg-err (name option) "is required!"))
+
+(defn convert-err [obj]
+  (arg-err "cannot be converted:" obj))
+
 ;; =====
 ;; Config
 ;; =====
