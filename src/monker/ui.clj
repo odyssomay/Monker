@@ -58,7 +58,7 @@
      :id id
      :classes classes}))
 
-(defn- vec->style [style]
+(defn vec->style [style]
   (let [[k & {:as options}] style
         style-map {:options options}
         {:keys [type id classes]} (split-id-class-keyword k)]
@@ -67,7 +67,7 @@
                         (assoc m class style-map))
                       {} classes)}))
 
-(defn- merge-style-map [sm1 sm2]
+(defn merge-style-map [sm1 sm2]
   (let [{opts1 :options} sm1
         {opts2 :options} sm2]
     {:options (merge opts1 opts2)}))
@@ -111,7 +111,7 @@
   ([r g b] (color r g b 1.0))
   ([r g b a] (Color. r g b a)))
 
-(defn- margin! [^ElementBuilder el m]
+(defn margin! [^ElementBuilder el m]
   (cond
     (number? m) (.margin el (str m))
     (and (sequential? m)
@@ -123,7 +123,7 @@
         (.marginBottom bottom)
         (.marginLeft left)))))
 
-(defn- padding! [^ElementBuilder el p]
+(defn padding! [^ElementBuilder el p]
   (cond
     (number? p) (.margin el (str p))
     (and (sequential? p)
@@ -135,7 +135,7 @@
         (.paddingBottom bottom)
         (.paddingLeft left)))))
 
-(defn- configure-element-builder
+(defn configure-element-builder
   [^ElementBuilder this params]
   (util/configure-helper
     params param
