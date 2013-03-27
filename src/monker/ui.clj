@@ -1,7 +1,35 @@
 (ns monker.ui
   (:require (monker [util :as util]))
   (:import de.lessvoid.nifty.tools.Color
-           de.lessvoid.nifty.builder.ElementBuilder))
+           de.lessvoid.nifty.builder.ElementBuilder
+           com.jme3.niftygui.NiftyJmeDisplay))
+
+;; =====
+;; Nifty
+;; =====
+(defn nifty-display
+  [obj]
+  (cond
+    (instance? NiftyJmeDisplay obj) obj
+    (instance? com.jme3.app.Application obj)
+    (let [app obj
+          nifty-display (NiftyJmeDisplay.
+                          (.getAssetManager app)
+                          (.getInputManager app)
+                          (.getAudioRenderer app)
+                          (.getGuiViewPort app))]
+      (.addProcessor (.getGuiViewPort app) nifty-display)
+      nifty-display)
+    :else (util/arg-err
+            "cannot be converted to nifty-display:"
+            obj)))
+
+(defn nifty [nifty-display]
+  (.getNifty nifty-display))
+  
+
+(defn from-xml [nifty-display path start-screen]
+  (.fromXml (.getNifty nifty-display) path start-screen))
 
 ;; =====
 ;; Style
@@ -47,18 +75,6 @@
 ;; =====
 ;; Elements
 ;; =====
-(defn nifty [app]
-  (let [nifty-display (com.jme3.niftygui.NiftyJmeDisplay.
-                        (.getAssetManager app)
-                        (.getInputManager app)
-                        (.getAudioRenderer app)
-                        (.getGuiViewPort app))]
-    (.addProcessor (.getGuiViewPort app) nifty-display)
-    nifty-display))
-
-(defn from-xml [nifty-display path start-screen]
-  (.fromXml (.getNifty nifty-display) path start-screen))
-
 (defn color
   ([c]
    (cond
