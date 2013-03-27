@@ -1,9 +1,11 @@
 (ns monker.ui
   (:require (monker [util :as util]))
   (:import de.lessvoid.nifty.tools.Color
-           de.lessvoid.nifty.builder.ElementBuilder
            com.jme3.niftygui.NiftyJmeDisplay
-           com.jme3.app.Application))
+           com.jme3.app.Application
+           (de.lessvoid.nifty.builder
+             ElementBuilder
+             TextBuilder)))
 
 ;; =====
 ;; Nifty
@@ -151,6 +153,13 @@
       :x (.x this (str param))
       :y (.y this (str param))
       )))
+
+(extend-type TextBuilder
+  util/Configurable
+  (configure [this params]
+    (util/conf-int ^ElementBuilder this
+                   (dissoc params :wrap?))
+    (.wrap this (:wrap? params))))
 (extend-type ScreenBuilder
   util/Configurable
   (configure [this params]
