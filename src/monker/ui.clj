@@ -34,7 +34,7 @@
   (cond
     (number? m) (.margin el (str m))
     (and (sequential? m)
-         (count m 4))
+         (= (count m) 4))
     (let [[top right bottom left] m]
       (doto el
         (.marginTop top)
@@ -46,7 +46,7 @@
   (cond
     (number? p) (.margin el (str p))
     (and (sequential? p)
-         (count p 4))
+         (= (count p) 4))
     (let [[top right bottom left] p]
       (doto el
         (.paddingTop top)
