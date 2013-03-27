@@ -92,11 +92,14 @@
 ;; Elements
 ;; =====
 (defn color
+  "Create a Color.
+  (de.lessvoid.nifty.tools.Color)
+  
+  "
   ([c]
    (cond
      (instance? Color c) c
      (string? c) (Color. ^String c)
-     (keyword? c) (Color. ^String (name c))
      (number? c) (color c c c)
      (and (sequential? c)
           (or (= (count c) 1)
