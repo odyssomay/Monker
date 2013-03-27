@@ -68,7 +68,7 @@
   (let [[k & {:as options}] style
         style-map {:options options}
         {:keys [type id classes]} (split-id-class-keyword k)]
-    {:ids (assoc {} id style-map)
+    {:ids (if id (assoc {} id style-map))
      :classes (reduce (fn [m class]
                         (assoc m class style-map))
                       {} classes)}))
