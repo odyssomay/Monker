@@ -151,3 +151,18 @@
       :x (.x this (str param))
       :y (.y this (str param))
       )))
+(extend-type ScreenBuilder
+  util/Configurable
+  (configure [this params]
+    (util/configure-helper
+      params param
+      :controller (.controller this param)
+      :focus (.defaultFocusElement this param)
+      :layers (doseq [layer param]
+                (.layer this layer)))))
+
+(defn screen [& {:as options}]
+  (let [{:keys [id]} options]
+    (if-not id (util/req-err :id))
+    (util/conf-int (ScreenBuilder. id)
+                   (dissoc options :id))))
