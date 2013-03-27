@@ -221,10 +221,6 @@
   [^ElementBuilder this params]
   (util/configure-helper
     params param
-    :align (case param
-             :center (.alignCenter this)
-             :left (.alignLeft this)
-             :right (.alignRight this))
     :background (.backgroundColor
                   this ^Color (color param))
     :background-image (.backgroundImage this param)
@@ -232,6 +228,10 @@
     :controller (.controller this param)
     :focusable? (.focusable this (boolean param))
     :font (.font this param)
+    :halign (case param
+              :center (.alignCenter this)
+              :left (.alignLeft this)
+              :right (.alignRight this))
     :height (.height this (str param))
     :id (.id this (name param))
     :inset (.inset this (str param))
