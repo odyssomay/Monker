@@ -206,6 +206,17 @@
         (.paddingBottom bottom)
         (.paddingLeft left)))))
 
+(defn add-item [^ElementBuilder el item]
+  (condp instance? item
+    ImageBuilder (.image el item)
+    PanelBuilder (.panel el item)
+    TextBuilder  (.text el ^TextBuilder item)))
+
+(defn add-items [el items]
+  (println "adding items")
+  (doseq [item items]
+    (add-item el item)))
+
 (defn configure-element-builder
   [^ElementBuilder this params]
   (util/configure-helper
@@ -228,6 +239,7 @@
     :height (.height this (str param))
     :id (.id this (name param))
     :inset (.inset this (str param))
+    :items (add-items this param)
     :margin (margin! this param)
     :name (.name this param)
     :padding (padding! this param)
