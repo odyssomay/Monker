@@ -10,6 +10,7 @@
              LayerBuilder
              PanelBuilder
              PopupBuilder
+             ScreenBuilder
              TextBuilder)))
 
 ;; =====
