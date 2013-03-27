@@ -307,7 +307,9 @@
   "
   {:arglists '([type & options])}
   [type & {:as options}]
-  (let [builder
+  (let [options (merge {:layout :horizontal}
+                       options)
+        builder
         (case type
           :image (ImageBuilder.)
           :layer (LayerBuilder.)
