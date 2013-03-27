@@ -221,6 +221,10 @@
   [^ElementBuilder this params]
   (util/configure-helper
     params param
+    :align (case param
+             :center (.alignCenter this)
+             :left (.alignLeft this)
+             :right (.alignRight this))
     :background (.backgroundColor
                   this ^Color (color param))
     :background-image (.backgroundImage this param)
