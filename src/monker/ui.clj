@@ -236,7 +236,6 @@
               :overlay (.childLayoutOverlay this)
               :vertical (.childLayoutVertical this))
     :color (.color this ^Color (color param))
-    :control (.control this param)
     :controller (.controller this param)
     :focusable? (.focusable this (boolean param))
     :font (.font this param)
@@ -250,7 +249,6 @@
     :selection-color (.selectionColor
                        this ^Color (color param))
     :style (.style this param)
-    :text (.text this param)
     :valign (case param
               :center (.valignCenter this)
               :bottom (.valignBottom this)
@@ -289,7 +287,6 @@
    :background-image
    :layout
    :color
-   :control
    :controller
    :focusable?
    :font
@@ -302,7 +299,6 @@
    :padding
    :selection-color
    :style
-   :text
    :valign
    :visible?
    :width
