@@ -298,14 +298,9 @@
    :x
    :y
   "
-  {:arglists '([type & children]
-               [type options & children])}
-  [type & args]
-  (let [[options children]
-        (if (map? (first args))
-          [(first args) (rest args)]
-          [{} args])
-        builder
+  {:arglists '([type & options])}
+  [type & {:as options}]
+  (let [builder
         (case type
           :image (ImageBuilder.)
           :layer (LayerBuilder.)
