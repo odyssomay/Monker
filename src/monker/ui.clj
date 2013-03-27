@@ -2,7 +2,8 @@
   (:require (monker [util :as util]))
   (:import de.lessvoid.nifty.tools.Color
            de.lessvoid.nifty.builder.ElementBuilder
-           com.jme3.niftygui.NiftyJmeDisplay))
+           com.jme3.niftygui.NiftyJmeDisplay
+           com.jme3.app.Application))
 
 ;; =====
 ;; Nifty
@@ -11,8 +12,8 @@
   [obj]
   (cond
     (instance? NiftyJmeDisplay obj) obj
-    (instance? com.jme3.app.Application obj)
-    (let [app obj
+    (instance? Application obj)
+    (let [app ^Application obj
           nifty-display (NiftyJmeDisplay.
                           (.getAssetManager app)
                           (.getInputManager app)
@@ -22,20 +23,21 @@
       nifty-display)
     :else (util/convert-err obj)))
 
-(defn nifty [nifty-display]
+(defn nifty [^NiftyJmeDisplay nifty-display]
   (.getNifty nifty-display))
   
 
 (defn from-xml [nifty-display path start-screen]
-  (.fromXml (.getNifty nifty-display) path start-screen))
+  (.fromXml ^de.lessvoid.nifty.Nifty
+            (nifty nifty-display) path start-screen))
 
 ;; =====
 ;; Style
 ;; =====
 (defn split-id-class-keyword [k]
   (let [n (name k)
-        [type id-classes] (.split n "#" 2)
-        [id & classes] (.split id-classes "\\.")]
+        [type id-classes] (.split ^String n "#" 2)
+        [id & classes] (.split ^String id-classes "\\.")]
     {:type type
      :id id
      :classes classes}))
@@ -77,8 +79,8 @@
   ([c]
    (cond
      (instance? Color c) c
-     (string? c) (Color. c)
-     (keyword? c) (Color. (name c))
+     (string? c) (Color. ^String c)
+     (keyword? c) (Color. ^String (name c))
      (number? c) (color c c c)
      (and (sequential? c)
           (or (= (count c) 1)
@@ -90,7 +92,7 @@
   ([r g b] (color r g b 1.0))
   ([r g b a] (Color. r g b a)))
 
-(defn- margin! [el m]
+(defn- margin! [^ElementBuilder el m]
   (cond
     (number? m) (.margin el (str m))
     (and (sequential? m)
@@ -102,7 +104,7 @@
         (.marginBottom bottom)
         (.marginLeft left)))))
 
-(defn- padding! [el p]
+(defn- padding! [^ElementBuilder el p]
   (cond
     (number? p) (.margin el (str p))
     (and (sequential? p)
