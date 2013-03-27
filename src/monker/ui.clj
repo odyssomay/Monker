@@ -95,6 +95,30 @@
   "Create a Color.
   (de.lessvoid.nifty.tools.Color)
   
+  The one argument version can be called with:
+  
+   a Color, which is returned.
+  
+   a string containing a html-style (hexadecimal) color.
+   
+   a number, specifies a gray color.
+             0 <= c <= 1
+   
+   a list/vector, this function is applied to it.
+  
+  Examples:
+   (color (Color. 0 0 0))
+   => (Color. 0 0 0)
+   
+   (color \"#fafafa\")
+   => (Color. 0.98039216 0.98039216 0.98039216,1.0)
+   
+   (color 0.2)
+   => (Color. 0.2 0.2 0.2)
+   
+   (color [0.1 0.4 1.0])
+   => (color 0.1 0.4 1.0)
+   => (Color. 0.1 0.4 1.0)
   "
   ([c]
    (cond
