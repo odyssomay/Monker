@@ -228,13 +228,6 @@
     :background (.backgroundColor
                   this ^Color (color param))
     :background-image (.backgroundImage this param)
-    :layout (case param
-              :absolute (.childLayoutAbsolute this)
-              :absolute-inside (.childLayoutAbsoluteInside this)
-              :center (.childLayoutCenter this)
-              :horizontal (.childLayoutHorizontal this)
-              :overlay (.childLayoutOverlay this)
-              :vertical (.childLayoutVertical this))
     :color (.color this ^Color (color param))
     :controller (.controller this param)
     :focusable? (.focusable this (boolean param))
@@ -243,6 +236,13 @@
     :id (.id this (name param))
     :inset (.inset this (str param))
     :items (add-items this param)
+    :layout (case param
+              :absolute (.childLayoutAbsolute this)
+              :absolute-inside (.childLayoutAbsoluteInside this)
+              :center (.childLayoutCenter this)
+              :horizontal (.childLayoutHorizontal this)
+              :overlay (.childLayoutOverlay this)
+              :vertical (.childLayoutVertical this))
     :margin (margin! this param)
     :name (.name this param)
     :padding (padding! this param)
