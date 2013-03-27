@@ -121,7 +121,8 @@
   (configure [this params]
     (util/configure-helper
       params param
-      :background (.backgroundColor this param)
+      :background (.backgroundColor
+                    this ^Color (color param))
       :background-image (.backgroundImage this param)
       :layout (case param
                 :absolute (.childLayoutAbsolute this)
@@ -129,9 +130,8 @@
                 :center (.childLayoutCenter this)
                 :horizontal (.childLayoutHorizontal this)
                 :overlay (.childLayoutOverlay this)
-                :vertical (.childLayoutVertical this)
-                )
-      :color (.color this (color param))
+                :vertical (.childLayoutVertical this))
+      :color (.color this ^Color (color param))
       :control (.control this param)
       :controller (.controller this param)
       :focusable? (.focusable this (boolean param))
@@ -142,7 +142,8 @@
       :margin (margin! this param)
       :name (.name this param)
       :padding (padding! this param)
-      :selection-color (.selectionColor this param)
+      :selection-color (.selectionColor
+                         this ^Color (color param))
       :style (.style this param)
       :text (.text this param)
       :visible? (.visible this (boolean param))
