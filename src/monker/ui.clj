@@ -16,6 +16,10 @@
 ;; Nifty
 ;; =====
 (defn nifty-display
+  "Create a NiftyJmeDisplay
+  and attach it to the application.
+  "
+  {:arglists '([app])}
   [obj]
   (cond
     (instance? NiftyJmeDisplay obj) obj
@@ -31,7 +35,7 @@
     :else (util/convert-err obj)))
 
 (defn nifty
-  ""
+  "Get a Nifty object."
   {:arglists '([nifty] [nifty-display])}
   [obj]
   (cond
@@ -39,10 +43,9 @@
     (.getNifty ^NiftyJmeDisplay obj)
     (instance? Nifty obj) obj
     :else (util/convert-err obj)))
-  
 
 (defn from-xml
-  ""
+  "Load ui from xml."
   [nifty-display path start-screen]
   (.fromXml ^Nifty (nifty nifty-display)
             path start-screen))
