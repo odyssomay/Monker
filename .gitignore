@@ -11,3 +11,6 @@ lein.bat
 .lein-failures
 .lein-plugins
 .lein-repl-history
+
+*.so
+*.dll
