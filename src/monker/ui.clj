@@ -207,6 +207,38 @@
     (.wrap this (boolean (:wrap? params)))))
 
 (defn element
+  "Create an element for use in a screen.
+  
+  Types:
+   :image
+   :layer
+   :panel
+   :popup
+   :text
+   
+  Options:
+   :background
+   :background-image
+   :layout
+   :color
+   :control
+   :controller
+   :focusable?
+   :font
+   :height
+   :id
+   :inset
+   :margin
+   :name
+   :padding
+   :selection-color
+   :style
+   :text
+   :visible?
+   :width
+   :x
+   :y
+  "
   {:arglists '([type & children]
                [type options & children])}
   [type & args]
