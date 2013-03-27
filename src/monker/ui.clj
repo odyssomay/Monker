@@ -3,6 +3,50 @@
   (:import de.lessvoid.nifty.tools.Color
            de.lessvoid.nifty.builder.ElementBuilder))
 
+;; =====
+;; Style
+;; =====
+(defn split-id-class-keyword [k]
+  (let [n (name k)
+        [type id-classes] (.split n "#" 2)
+        [id & classes] (.split id-classes "\\.")]
+    {:type type
+     :id id
+     :classes classes}))
+
+(defn- vec->style [style]
+  (let [[k & {:as options}] style
+        style-map {:options options}
+        {:keys [type id classes]} (split-id-class-keyword k)]
+    {:ids (assoc {} id style-map)
+     :classes (reduce (fn [m class]
+                        (assoc m class style-map))
+                      {} classes)}))
+
+(defn- merge-style-map [sm1 sm2]
+  (let [{opts1 :options} sm1
+        {opts2 :options} sm2]
+    {:options (merge opts1 opts2)}))
+
+(defn merge-styles [style1 style2]
+  (let [{ids1 :ids classes1 :classes} style1
+        {ids2 :ids classes2 :classes} style2]
+    {:ids (merge-with merge-style-map ids1 ids2)
+     :classes (merge-with merge-style-map classes1 classes2)}))
+
+(defn style
+  ([style]
+   (cond
+     (map? style) style
+     (vector? style) (vec->style style)))
+  ([style1 style2 & styles]
+   (let [style-maps (map style (concat [style1 style2]
+                                       styles))]
+     (reduce merge-styles style-maps))))
+
+;; =====
+;; Elements
+;; =====
 (defn nifty [app]
   (let [nifty-display (com.jme3.niftygui.NiftyJmeDisplay.
                         (.getAssetManager app)
