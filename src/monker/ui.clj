@@ -5,6 +5,10 @@
            com.jme3.app.Application
            (de.lessvoid.nifty.builder
              ElementBuilder
+             ImageBuilder
+             LayerBuilder
+             PanelBuilder
+             PopupBuilder
              TextBuilder)))
 
 ;; =====
