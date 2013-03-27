@@ -168,6 +168,24 @@
     (configure-element-builder
       this (dissoc params :wrap?))
     (.wrap this (boolean (:wrap? params)))))
+
+(defn element
+  {:arglists '([type & children]
+               [type options & children])}
+  [type & args]
+  (let [[options children]
+        (if (map? (first args))
+          [(first args) (rest args)]
+          [{} args])
+        builder
+        (case type
+          :image (ImageBuilder.)
+          :layer (LayerBuilder.)
+          :panel (PanelBuilder.)
+          :popup (PopupBuilder.)
+          :text  (TextBuilder.))]
+    (util/conf-int builder options)))
+
 (extend-type ScreenBuilder
   util/Configurable
   (configure [this params]
