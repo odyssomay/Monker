@@ -284,6 +284,7 @@
    :text
    
   Options:
+   :align
    :background
    :background-image
    :layout
@@ -295,12 +296,14 @@
    :height
    :id
    :inset
+   :items
    :margin
    :name
    :padding
    :selection-color
    :style
    :text
+   :valign
    :visible?
    :width
    :x
