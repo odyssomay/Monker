@@ -55,10 +55,13 @@
 ;; =====
 (defn split-id-class-keyword [k]
   (let [n (name k)
-        [type id-classes] (.split ^String n "#" 2)
-        [id & classes] (.split ^String id-classes "\\.")]
-    {:type type
-     :id id
+        type (re-find #"^[^\.#]+" n)
+        id (re-find #"(?<=#)[^\.]+" n)
+        classes (seq (.split ^String
+                             (re-find #"(?<=\.)[^#]+$" n)
+                             "\\."))]
+    {:type (reduce str type)
+     :id (reduce str id)
      :classes classes}))
 
 (defn vec->style [style]
