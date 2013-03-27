@@ -88,6 +88,23 @@
                                        styles))]
      (reduce merge-styles style-maps))))
 
+(defn apply-style-map [el style-map]
+  (util/conf-int el (:options style-map)))
+
+(defn get-style-map [k style]
+  (let [{:keys [id classes]}
+        (split-id-class-keyword k)
+        id-map (get-in style [:ids id])
+        class-map
+        (reduce (fn [m c]
+                  (merge-style-map
+                    m
+                    (get-in style
+                            [:classes c])))
+                {}
+                classes)]
+    (merge class-map id-map)))
+
 ;; =====
 ;; Elements
 ;; =====
