@@ -4,7 +4,8 @@
                 conf-int configure-helper]
          :as util])
   (:require (monker [input :as input]))
-  (:import (com.jme3.math Vector2f Vector3f Vector4f)
+  (:import com.jme3.asset.AssetManager
+           (com.jme3.math Vector2f Vector3f Vector4f)
            (com.jme3.app
              Application
              SimpleApplication)
@@ -164,11 +165,13 @@
          :as arg-map} args
         ]
     (if init
-      (let [app (conf-int (proxy [SimpleApplication] []
-                            (simpleInitApp [] (init this))
-                            (simpleUpdate [tpf] (update this tpf))
-                            )
-                          args)
+      (let [^SimpleApplication
+            app
+            (conf-int (proxy [SimpleApplication] []
+                        (simpleInitApp [] (init this))
+                        (simpleUpdate [tpf] (update this tpf))
+                        )
+                      args)
             ]
         (.start app (jme-app-type context-type))
         app)
@@ -177,7 +180,7 @@
 
 (defn start!
   "Start app."
-  [app] (.start app))
+  [app] (.start ^Application app))
 
 (defmacro run-in-app
   "Execute body on the app's thread."
@@ -204,7 +207,7 @@
   [obj]
   (if (asset-manager? obj)
     obj
-    (.getAssetManager obj)))
+    (.getAssetManager ^Application obj)))
 
 (defn load-model
   "Returns a Spatial.
@@ -213,8 +216,8 @@
   monker.core/asset-manager."
   {:arglists '([asset-manager path & options])}
   [am-obj path & {:as options}]
-  (let [am (asset-manager am-obj)]
-    (conf-int (.loadModel am path)
+  (let [^AssetManager am (asset-manager am-obj)]
+    (conf-int (.loadModel am ^String path)
               options)))
 
 (defn load-audio
@@ -224,8 +227,8 @@
   monker.core/asset-manager."
   {:arglists '([asset-manager path & options])}
   [am-obj path & {:as options}]
-  (let [am (asset-manager am-obj)]
-    (conf-int (.loadAudio am path)
+  (let [^AssetManager am (asset-manager am-obj)]
+    (conf-int (.loadAudio am ^String path)
               options)))
 
 ;; =====
@@ -288,14 +291,13 @@
 (defn lit-material
   ""
   [app texture-map]
-  (let [textures (for [[k path] texture-map]
+  (let [^AssetManager am (asset-manager app)
+        textures (for [[k path] texture-map]
                    [(case k
                       :diffuse "DiffuseMap"
                       :specular "SpecularMap"
                       :normal "NormalMap")
-                    (.loadTexture (asset-manager app)
-                                  path)])
-        ]
+                    (.loadTexture am ^String path)])]
     (material app "Common/MatDefs/Light/Lighting.j3md"
               :textures textures)))
 
@@ -314,7 +316,8 @@
     (configure-helper 
       params param
       :translation (.setLocalTranslation s (jvector param))
-      :scale (.setLocalScale s (jvector3 param))
+      :scale (.setLocalScale s
+               ^Vector3f (jvector3 param))
       :material (.setMaterial s param)
       )))
 
