@@ -5,7 +5,9 @@
          :as util])
   (:require (monker [input :as input]))
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
-           com.jme3.app.SimpleApplication
+           (com.jme3.app
+             Application
+             SimpleApplication)
            com.jme3.system.AppSettings
            com.jme3.material.Material
            (com.jme3.scene Geometry Mesh Spatial)
@@ -90,7 +92,7 @@
 ;; =====
 ;; Application
 ;; =====
-(defn app? [obj] (instance? com.jme3.app.Application obj))
+(defn app? [obj] (instance? Application obj))
 
 (defn param->settings [param]
   (cond
