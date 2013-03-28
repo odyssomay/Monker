@@ -356,7 +356,10 @@
       :layers (doseq [layer param]
                 (.layer this layer)))))
 
-(defn screen [& {:as options}]
+(defn screen
+  ""
+  {:arglists '([& options])}
+  [& {:as options}]
   (let [{:keys [id]} options]
     (if-not id (util/req-err :id))
     (util/conf-int (ScreenBuilder. id)
