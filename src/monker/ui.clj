@@ -282,27 +282,51 @@
    :text
    
   Options:
-   :align
-   :background
+   :background - a color
+   
    :background-image
-   :layout
-   :color
-   :controller
+   
+   :layout - :absolute :absolute-inside :center
+             :horizontal :overlay or :vertical
+              
+   :color - 
+   
+   :controller - 
+   
    :focusable?
-   :font
+   
+   :font - a string pointing to a font on
+           the classpath.
+   
+   :halign - :center :left or :right
+   
    :height
+   
    :id
+   
    :inset
-   :items
+   
+   :items - a sequence of elements to
+            add as children to this element.
+   
    :margin
+   
    :name
+   
    :padding
+   
    :selection-color
+   
    :style
+   
    :valign
+   
    :visible?
+   
    :width
+   
    :x
+   
    :y
   "
   {:arglists '([type & options])}
