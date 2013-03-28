@@ -4,6 +4,7 @@
            de.lessvoid.nifty.Nifty
            com.jme3.niftygui.NiftyJmeDisplay
            com.jme3.app.Application
+           de.lessvoid.nifty.controls.Controller
            (de.lessvoid.nifty.builder
              ElementBuilder
              ImageBuilder
@@ -225,7 +226,7 @@
                   this ^Color (color param))
     :background-image (.backgroundImage this param)
     :color (.color this ^Color (color param))
-    :controller (.controller this param)
+    :controller (.controller this ^Controller param)
     :focusable? (.focusable this (boolean param))
     :font (.font this param)
     :halign (case param
