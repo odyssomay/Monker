@@ -213,7 +213,6 @@
     TextBuilder  (.text el ^TextBuilder item)))
 
 (defn add-items [el items]
-  (println "adding items")
   (doseq [item items]
     (add-item el item)))
 
