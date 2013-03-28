@@ -19,7 +19,8 @@
   [im]
   (if (instance? InputManager im)
     im
-    (.getInputManager im)))
+    (.getInputManager
+      ^com.jme3.app.Application im)))
 
 (defmacro ki {:private true} [ch]
   (symbol (str "KeyInput/KEY_" ch)))
@@ -73,7 +74,7 @@
   "
   [ch]
   (let [ch (if (char? ch) (str ch) ch)
-        ch (.toLowerCase ch)]
+        ch (.toLowerCase ^String ch)]
     (KeyTrigger.
       (case ch
         ; alphanumerical
@@ -274,7 +275,7 @@
   {:arglists '([app mappings]
                [input-manager mappings])}
   [im mappings]
-  (let [im (input-manager im)]
+  (let [im ^InputManager (input-manager im)]
     (doseq [[k triggers] mappings]
       (if-not (keyword? k)
         (util/arg-err
@@ -329,7 +330,7 @@
   {:arglists '([app listeners]
                [input-manager listeners])}
   [im listeners]
-  (let [im (input-manager im)]
+  (let [im ^InputManager (input-manager im)]
     (doseq [[mappings listener] listeners]
       (.addListener im listener
                     (into-array String (map name mappings))))))
