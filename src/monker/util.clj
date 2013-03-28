@@ -2,7 +2,7 @@
 
 (defn arg-err [& err]
   (throw (IllegalArgumentException.
-           (apply println-str err))))
+           ^String (apply println-str err))))
 
 (defn req-err [option]
   (arg-err (name option) "is required!"))
