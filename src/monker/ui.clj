@@ -109,6 +109,7 @@
      :classes (merge-with merge-style-map classes1 classes2)}))
 
 (defn style
+  ""
   ([style]
    (cond
      (map? style) style
