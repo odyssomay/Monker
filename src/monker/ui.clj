@@ -354,6 +354,11 @@
          (if (map? (first more))
            more
            (cons {} more))
+         children (reduce (fn [v n]
+                            (if (list? n)
+                              (vec (concat v n))
+                              (conj v n)))
+                          [] children)
          options (merge {:items (map into-element
                                      children)}
                         options)]
