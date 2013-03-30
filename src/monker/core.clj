@@ -65,10 +65,10 @@
       :frame-rate (.setFrameRate s param)
       :fullscreen? (.setFullscreen s param)
       :height (.setHeight s param)
-      :width (.setWidth s param)
-      :title (.setTitle s param)
       :load-defaults nil
-      )))
+      :title (.setTitle s param)
+      :vsync? (.setVSync s param)
+      :width (.setWidth s param))))
 
 (defn settings
   "Create AppSettings.
@@ -78,10 +78,11 @@
    :fullscreen?  Default: false
    :height  Height of displayed screen in pixels.
             Default: 640.
-   :width  As above. Default: 480.
+   :load-defaults  Default: true.
    :title  Title of the window shown (only if application
            has :context-type :display - the default).
-   :load-defaults  Default: true.
+   :vsync?  Default: false.
+   :width  Default: 480.
   "
   [& {:as args}]
   (let [{:keys [load-defaults]
