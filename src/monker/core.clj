@@ -105,14 +105,10 @@
   (configure [app params]
     (configure-helper
       params param
-      :context-type nil
-      :init nil
       :show-fps (.setDisplayFps app param)
       :show-statistics (.setDisplayStatView app param)
       :show-settings (.setShowSettings app param)
-      :settings (.setSettings app (param->settings param))
-      :update nil
-      )))
+      :settings (.setSettings app (param->settings param)))))
 
 (defn- jme-app-type [type]
   (case type
@@ -155,24 +151,32 @@
    
    :show-settings
    
+   :stop  Function to run when the application is stopping.
+          Should take the app as argument.
+   
    :update  Function to run when updating the application.
-            Should take two arguments: the app and a float
+            Should take two arguments: the app and a float.
   "
   [& {:as args}]
-  (let [{:keys [init update context-type]
+  (let [{:keys [init update stop context-type]
          :or {update (fn [& _])
+              stop (fn [& _])
               context-type :display}
          :as arg-map} args
         ]
     (if init
-      (let [^SimpleApplication
+      (let [args (dissoc args :context-type :init :stop :update)
+            ^SimpleApplication
             app
             (conf-int (proxy [SimpleApplication] []
                         (simpleInitApp [] (init this))
                         (simpleUpdate [tpf] (update this tpf))
-                        )
-                      args)
-            ]
+                        (stop
+                          ([] (.stop this false))
+                          ([wait?]
+                           (stop this)
+                           (proxy-super stop wait?))))
+                      args)]
         (.start app (jme-app-type context-type))
         app)
       (util/req-err :init))))
