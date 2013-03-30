@@ -175,8 +175,7 @@
             ]
         (.start app (jme-app-type context-type))
         app)
-      (throw (IllegalArgumentException.
-               ":init argument is required")))))
+      (util/req-err :init))))
 
 (defn start!
   "Start app."
