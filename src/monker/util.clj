@@ -8,7 +8,7 @@
   `(arg-err ~option "option required!"))
 
 (defmacro convert-err [obj]
-  (arg-err "cannot be converted:" ~obj))
+  `(arg-err "cannot be converted:" ~obj))
 
 ;; =====
 ;; Config
