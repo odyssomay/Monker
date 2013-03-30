@@ -17,7 +17,7 @@
          (edn/read-string
            (.getMessage message))))))
 
-(defn- string-message [obj]
+(defn string-message [obj]
   (monker.StringMessage. (pr-str obj)))
 
 (defn connection-listener [which on-connect on-disconnect]
