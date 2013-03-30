@@ -182,6 +182,19 @@
   "Start app."
   [app] (.start ^Application app))
 
+(defn stop!
+  "Stop the application
+  
+  (stop! app) is the same as
+  (stop! app false).
+  
+  If wait? is truthy, stop! blocks
+  until the application is fully stopped.
+  Otherwise, stop! returns instantly.
+  "
+  ([app] (.stop ^Application app))
+  ([app wait?] (.stop ^Application app (boolean wait?))))
+
 (defmacro run-in-app
   "Execute body on the app's thread."
   [app & body]
