@@ -2,7 +2,7 @@
 
 (defmacro arg-err [& err]
   `(throw (IllegalArgumentException.
-           ^String (apply println-str ~err))))
+           ^String (apply println-str (vector ~@err)))))
 
 (defmacro req-err [option]
   `(arg-err ~option "option required!"))
