@@ -145,7 +145,10 @@
           Function to run when the application
           has been started (with start!).
           Should take the app as argument.
-          
+    
+   :settings  Either an AppSettings object, or a map
+              that is converted using monker.core/settings.
+   
    :show-fps  Default: true
    
    :show-statistics  Default: true
