@@ -67,7 +67,8 @@
       c (string-message-listener c on-message))
     c))
 
-(defn broadcast [server message])
+(defn broadcast! [server message]
+  (.broadcast server (string-message message)))
 
 (defn close!
   ([obj] (.close obj))
