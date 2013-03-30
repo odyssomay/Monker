@@ -70,6 +70,10 @@
 (defn broadcast! [server message]
   (.broadcast server (string-message message)))
 
+(defn send!
+  [obj message]
+  (.send obj (string-message message)))
+
 (defn close!
   ([obj] (.close obj))
   ([obj info] (.close obj info)))
