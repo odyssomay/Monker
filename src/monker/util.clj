@@ -1,14 +1,14 @@
 (ns monker.util)
 
-(defn arg-err [& err]
-  (throw (IllegalArgumentException.
-           ^String (apply println-str err))))
+(defmacro arg-err [& err]
+  `(throw (IllegalArgumentException.
+           ^String (apply println-str ~err))))
 
-(defn req-err [option]
-  (arg-err (name option) "is required!"))
+(defmacro req-err [option]
+  `(arg-err ~option "option required!"))
 
-(defn convert-err [obj]
-  (arg-err "cannot be converted:" obj))
+(defmacro convert-err [obj]
+  (arg-err "cannot be converted:" ~obj))
 
 ;; =====
 ;; Config
