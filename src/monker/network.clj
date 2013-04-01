@@ -35,7 +35,29 @@
                 (on-disconnect client info)))
     ))
 
-(defn server [& {:as args}]
+(defn server
+  "Create a Server.
+  
+  Options:
+   :on-connect  A function taking two arguments:
+                this server and a HostedConnection.
+   
+   :on-disconnect  Same as :on-connect.
+   
+   :on-message  A function taking three arguments:
+                this server, the HostedConnection and the message.
+   
+   :port  The port used.
+          Default: 8080
+   
+   :tcp-port  The port to use for tcp messages.
+              If :tcp-port and :udp-port is specified,
+              they override :port.
+   
+   :udp-port  See :tcp-port.
+  "
+  {:arglists '([& options])}
+  [& {:as args}]
   (let [{:keys [port tcp-port udp-port
                 on-message on-connect on-disconnect]
          :or {on-connect (fn [& _])
@@ -55,7 +77,24 @@
     (.addMessageListener s (string-message-listener s on-message))
   s))
 
-(defn client [& {:as args}]
+(defn client
+  "Create a Client.
+  
+  Options:
+   :host  The host to connect to.
+          Default: \"localhost\"
+   
+   :on-connect  A function taking one argument: this client.
+   
+   :on-disconnect  Same as :on-connect.
+   
+   :on-message  A function taking two arguments:
+                this client and the message.
+   
+   :port  The port used for connecting.
+          Default: 8080
+  "
+  [& {:as args}]
   (let [{:keys [host port on-connect on-disconnect
                 on-message]
          :or {on-connect (fn [& _])
