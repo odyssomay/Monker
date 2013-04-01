@@ -60,7 +60,8 @@
         type (re-find #"^[^\.#]+" n)
         id (re-find #"(?<=#)[^\.]+" n)
         classes (seq (.split ^String
-                             (re-find #"(?<=\.)[^#]+$" n)
+                             (or (re-find #"(?<=\.)[^#]+$" n)
+                                 "")
                              "\\."))]
     {:type type
      :id id
