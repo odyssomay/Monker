@@ -384,7 +384,7 @@
       :controller (.controller this param)
       :focus (.defaultFocusElement this param)
       :layers (doseq [layer param]
-                (.layer this layer)))))
+                (.layer this (into-element layer))))))
 
 (defn screen
   ""
