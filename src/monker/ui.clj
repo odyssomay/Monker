@@ -345,26 +345,32 @@
     (util/conf-int builder options)))
 
 (declare into-element)
+(defn vec->options [v]
+  (let [[options & children]
+        (if (map? (first v))
+          v (cons {} v))
+        children (reduce (fn [v n]
+                           (if (list? n)
+                             (vec (concat v n))
+                             (conj v n)))
+                         [] children)
+        options (merge {:items children}
+                       options)]
+    options))
+
 (defn vec->element
   ""
   {:arglists '([v]
                [v style])}
   ([v] (vec->element v nil))
   ([v s]
-   (let [[type & more] v
-         [options & children]
-         (if (map? (first more))
-           more
-           (cons {} more))
-         children (reduce (fn [v n]
-                            (if (list? n)
-                              (vec (concat v n))
-                              (conj v n)))
-                          [] children)
-         options (merge {:items (map into-element
-                                     children)}
-                        options)]
-     (apply element type (reduce concat options)))))
+   (let [{:keys [type]} (split-id-class-keyword (first v))
+         options (vec->options (rest v))
+         options (assoc options :items
+                   (map #(into-element % s)
+                        (:items options)))
+         options (reduce concat options)]
+     (apply element (keyword type) options))))
 
 (defn into-element
   ""
