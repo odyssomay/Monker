@@ -273,8 +273,20 @@
       this (dissoc params :wrap?))
     (.wrap this (boolean (:wrap? params)))))
 
+(extend-type ScreenBuilder
+  util/Configurable
+  (configure [this params]
+             (println params)
+    (util/configure-helper
+      params param
+      :controller (.controller this param)
+      :focus (.defaultFocusElement this param)
+      :id nil
+      :items (doseq [layer param]
+                (.layer this layer)))))
+
 (defn element
-  "Create an element for use in a screen.
+  "Create an element.
   
   Types:
    :image
@@ -333,15 +345,20 @@
   "
   {:arglists '([type & options])}
   [type & {:as options}]
-  (let [options (merge {:layout :horizontal}
-                       options)
+  (let [options (if-not (= type :screen)
+                  (merge {:layout :horizontal}
+                         options)
+                  options)
         builder
         (case type
-          :image (ImageBuilder.)
-          :layer (LayerBuilder.)
-          :panel (PanelBuilder.)
-          :popup (PopupBuilder.)
-          :text  (TextBuilder.))]
+          :image  (ImageBuilder.)
+          :layer  (LayerBuilder.)
+          :panel  (PanelBuilder.)
+          :popup  (PopupBuilder.)
+          :screen (if-let [id (:id options)]
+                    (ScreenBuilder. id)
+                    (util/req-err :id))
+          :text   (TextBuilder.))]
     (util/conf-int builder options)))
 
 (declare into-element)
@@ -363,16 +380,27 @@
                [v style])}
   ([v] (vec->element v nil))
   ([v s]
-   (let [{:keys [type]} (split-id-class-keyword (first v))
+   (let [{:keys [id type]} (split-id-class-keyword (first v))
          options (vec->options (rest v))
-         options (assoc options :items
+         options (assoc options
+                   :items
                    (map #(into-element % s)
                         (:items options)))
+         options (if id
+                   (assoc options :id id)
+                   options)
          options (reduce concat options)]
      (apply element (keyword type) options))))
 
 (defn into-element
-  ""
+  "Convert element into an element.
+  
+  Element can either be:
+   Of type ElementBuilder. This is what you get
+   from calling monker.ui/element.
+   
+   A vector.
+  "
   {:arglists '([element]
                [element style])}
   ([el] (into-element el nil))
@@ -382,48 +410,10 @@
      (vector? el) (vec->element el)
      :else (util/convert-err el))))
 
-(extend-type ScreenBuilder
-  util/Configurable
-  (configure [this params]
-    (util/configure-helper
-      params param
-      :controller (.controller this param)
-      :focus (.defaultFocusElement this param)
-      :layers (doseq [layer param]
-                (.layer this (into-element layer))))))
-
-(defn screen
-  ""
-  {:arglists '([& options])}
+(defn ui
+  "Create a user interface."
+  {:arglists '([app & options]
+               [nifty-display & options])}
   [& {:as options}]
-  (let [{:keys [id]} options]
-    (if-not id (util/req-err :id))
-    (util/conf-int (ScreenBuilder. id)
-                   (dissoc options :id))))
-
-(defn vec->screen
-  ([v] (vec->screen v nil))
-  ([v s]
-   (let [{:keys [type id]} (split-id-class-keyword (first v))
-         options (vec->options (rest v))
-         options (assoc options :items
-                   (map #(into-element % s)
-                        (:items options)))
-         options (-> options
-                     (assoc :layers
-                       (:items options))
-                     (dissoc :items)
-                     (assoc :id id))
-         options (reduce concat options)]
-     (apply screen options))))
-
-(defn into-screen
-  ""
-  {:arglists '([screen]
-               [screen style])}
-  ([el] (into-screen el nil))
-  ([el s]
-   (cond
-     (instance? ScreenBuilder el) el
-     (vector? el) (vec->screen el)
-     :else (util/convert-err el))))
+  (let [{:keys [style screens]} options]
+    ))
