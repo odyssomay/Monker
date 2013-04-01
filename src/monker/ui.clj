@@ -359,7 +359,6 @@
     options))
 
 (defn vec->element
-  ""
   {:arglists '([v]
                [v style])}
   ([v] (vec->element v nil))
