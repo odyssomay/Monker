@@ -1,8 +1,9 @@
 (ns monker.network
-  ;(:use [monker.core])
-  (:require [clojure.edn :as edn])
+  (:require [monker.util :as util]
+            [clojure.edn :as edn])
   (:import (com.jme3.network
              Client Server
+             HostedConnection
              Network ConnectionListener
              ClientStateListener
              MessageListener)))
