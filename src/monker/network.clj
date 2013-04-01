@@ -10,11 +10,10 @@
 (com.jme3.network.serializing.Serializer/registerClass
   monker.StringMessage)
 
-(defn- string-message-listener [s-or-c f]
+(defn- string-message-listener [f]
   (reify MessageListener
     (messageReceived [this source message]
-      (f s-or-c
-         source
+      (f source
          (edn/read-string
            (.getMessage message))))))
 
@@ -62,9 +61,9 @@
                 on-message on-connect on-disconnect]
          :or {on-connect (fn [& _])
               on-disconnect (fn [& _])
-              on-message (fn [& _])}
+              on-message (fn [& _])
+              port 8080}
          } args
-        tcp-port (or tcp-port port 8080)
         [tcp-port udp-port] (if (and tcp-port udp-port)
                               [tcp-port udp-port]
                               [port port])
@@ -74,7 +73,8 @@
         ]
     (.addConnectionListener
       s (connection-listener :server on-connect on-disconnect))
-    (.addMessageListener s (string-message-listener s on-message))
+    (.addMessageListener
+      s (string-message-listener (partial on-message s)))
   s))
 
 (defn client
@@ -99,7 +99,9 @@
                 on-message]
          :or {on-connect (fn [& _])
               on-disconnect (fn [& _])
-              on-message (fn [& _])}} args
+              on-message (fn [& _])
+              host "localhost"
+              port 8080}} args
         c (Network/connectToServer host port)]
     (.addClientStateListener
       c (connection-listener :client on-connect on-disconnect))
