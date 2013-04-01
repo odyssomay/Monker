@@ -1,4 +1,5 @@
-(ns monker.util)
+(ns monker.util
+  (:require [clojure.string :as cstr]))
 
 (defmacro arg-err [& err]
   `(throw (IllegalArgumentException.
@@ -33,3 +34,10 @@
 (defn conf-int [obj params]
   (configure obj params)
   obj)
+
+;; =====
+
+(defn dash-to-camel [string]
+  (let [words (.split ^String string "-")
+        capitalized (map cstr/capitalize (rest words))]
+    (apply str (first words) capitalized)))
