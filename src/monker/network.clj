@@ -107,7 +107,7 @@
     (.addClientStateListener
       c (connection-listener :client on-connect on-disconnect))
     (.addMessageListener
-      c (string-message-listener c on-message))
+      c (string-message-listener on-message))
     c))
 
 (defn send!
