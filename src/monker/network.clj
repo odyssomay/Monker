@@ -2,6 +2,7 @@
   ;(:use [monker.core])
   (:require [clojure.edn :as edn])
   (:import (com.jme3.network
+             Client Server
              Network ConnectionListener
              ClientStateListener
              MessageListener)))
@@ -67,12 +68,29 @@
       c (string-message-listener c on-message))
     c))
 
-(defn broadcast! [server message]
-  (.broadcast server (string-message message)))
-
 (defn send!
+  "Send message.
+  
+  The first argument should be of type:
+   Client
+   HostedConnection
+   Server
+  
+  The message can be any clojure datastructure.
+  "
+  {:arglists '([client message]
+               [connection message]
+               [server message])}
   [obj message]
-  (.send obj (string-message message)))
+  (let [msg (string-message message)]
+    (cond
+      (instance? Client obj)
+        (.send ^Client obj msg)
+      (instance? HostedConnection obj)
+        (.send ^ClientConnection obj msg)
+      (instance? Server obj)
+        (.broadcast ^Server obj msg)
+      :else (util/arg-err ))))
 
 (defn close!
   ([obj] (.close obj))
