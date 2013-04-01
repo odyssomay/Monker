@@ -295,7 +295,7 @@
    :popup
    :text
    
-  Options:
+  Options (except for :screen - see below):
    :background - a color
    
    :background-image
@@ -342,6 +342,19 @@
    :x
    
    :y
+  
+  Options, for :screen type:
+   :controller
+   
+   :focus  id of the element to focus when
+           the screen is shown.
+   
+   :items  A list/vector of layers to show in this screen.
+           Layers are ordered back to front. That is,
+           the first element in the list is in the back.
+           The second element is in front of the first.
+           The third element is in front of the second.
+           And so on.
   "
   {:arglists '([type & options])}
   [type & {:as options}]
