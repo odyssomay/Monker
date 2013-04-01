@@ -129,7 +129,7 @@
       (instance? Client obj)
         (.send ^Client obj msg)
       (instance? HostedConnection obj)
-        (.send ^ClientConnection obj msg)
+        (.send ^HostedConnection obj msg)
       (instance? Server obj)
         (.broadcast ^Server obj msg)
       :else (util/arg-err ))))
