@@ -423,6 +423,22 @@
      (vector? el) (vec->element el)
      :else (util/convert-err el))))
 
+;; =====
+;; Effects
+;; =====
+(extend-type EffectBuilder
+  util/Configurable
+  (configure [this params]
+    (util/configure-helper
+      params param
+      :parameters (doseq [parameter param]
+                    (.effectParameter
+                      this parameter)))))
+
+(defn effect [effect & {:as options}]
+  (let [effect (util/dash-to-camel (name effect))]
+    (conf-int (EffectBuilder. effect) options)))
+
 (defn ui
   "Create a user interface."
   {:arglists '([app & options]
