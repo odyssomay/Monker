@@ -400,3 +400,30 @@
     (if-not id (util/req-err :id))
     (util/conf-int (ScreenBuilder. id)
                    (dissoc options :id))))
+
+(defn vec->screen
+  ([v] (vec->screen v nil))
+  ([v s]
+   (let [{:keys [type id]} (split-id-class-keyword (first v))
+         options (vec->options (rest v))
+         options (assoc options :items
+                   (map #(into-element % s)
+                        (:items options)))
+         options (-> options
+                     (assoc :layers
+                       (:items options))
+                     (dissoc :items)
+                     (assoc :id id))
+         options (reduce concat options)]
+     (apply screen options))))
+
+(defn into-screen
+  ""
+  {:arglists '([screen]
+               [screen style])}
+  ([el] (into-screen el nil))
+  ([el s]
+   (cond
+     (instance? ScreenBuilder el) el
+     (vector? el) (vec->screen el)
+     :else (util/convert-err el))))
