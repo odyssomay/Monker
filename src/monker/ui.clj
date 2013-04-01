@@ -431,6 +431,8 @@
   (configure [this params]
     (util/configure-helper
       params param
+      :length (.length this param)
+      :once? (.oneShot this param)
       :parameters (doseq [parameter param]
                     (.effectParameter
                       this parameter)))))
