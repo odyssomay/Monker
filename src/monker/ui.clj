@@ -414,7 +414,12 @@
   "
   {:arglists '([type & options])}
   [type & {:as options}]
-  (let [options (if-not (= type :screen)
+  (let [get-id (fn []
+                 (or (:id options)
+                     (util/arg-err
+                       ":id option required for element type "
+                       type)))
+        options (if-not (= type :screen)
                   (merge {:layout :horizontal}
                          options)
                   options)
@@ -424,12 +429,10 @@
           :layer  (LayerBuilder.)
           :panel  (PanelBuilder.)
           :popup  (PopupBuilder.)
-          :screen (if-let [id (:id options)]
-                    (ScreenBuilder. id)
-                    (util/req-err :id))
+          :screen (ScreenBuilder. (get-id))
           :text   (TextBuilder.)
           ;; controls
-          :button (ButtonBuilder. (:id options))
+          :button (ButtonBuilder. (get-id))
           :checkbox (CheckboxBuilder.)
           :label (LabelBuilder.)
           )]
