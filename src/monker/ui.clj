@@ -322,6 +322,14 @@
       (configure-element-builder
         this (dissoc params :checked?)))))
 
+(extend-type ConsoleBuilder
+  util/Configurable
+  (configure [this params]
+    (let [params (configure-standard-control this params)]
+      (if-let [lines (:lines params)]
+        (.lines this lines))
+      (configure-element-builder
+        this (dissoc params :lines)))))
 
 (extend-type LabelBuilder
   util/Configurable
