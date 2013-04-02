@@ -353,66 +353,49 @@
   "Create an element.
   
   Types:
-   :button *
-   :checkbox
-   :console *
-   :drop-down *
    :image
-   :label
    :layer
    :panel
    :popup
    :screen *
    :text
-   
+  
+  Types (controls):
+   :button *
+   :checkbox
+   :console *
+   :drop-down *
+   :image-select
+   :label
+  
   * Requires the :id option.
-   
+  
+  
   Options (except for :screen - see below):
    :background - a color
-   
    :background-image
-   
-   :layout - :absolute :absolute-inside :center
-             :horizontal :overlay or :vertical
-              
-   :color - 
-   
-   :controller - 
-   
+   :layout :absolute :absolute-inside :center
+           :horizontal :overlay or :vertical
+   :color
+   :controller
    :focusable?
-   
-   :font - a string pointing to a font on
-           the classpath.
-   
-   :halign - :center :left or :right
-   
+   :font  a string pointing to a font on
+          the classpath.
+   :halign  :center :left or :right
    :height
-   
    :id
-   
    :inset
-   
    :items - a sequence of elements to
             add as children to this element.
-   
    :margin
-   
    :name
-   
    :padding
-   
    :selection-color
-   
    :style
-   
    :valign
-   
    :visible?
-   
    :width
-   
    :x
-   
    :y
   
   Options, for :screen type:
