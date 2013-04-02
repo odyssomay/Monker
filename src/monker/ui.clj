@@ -1,5 +1,6 @@
 (ns monker.ui
-  (:require (monker [util :as util]))
+  (:require (monker [util :as util])
+            [clojure.string :as cstr])
   (:import (de.lessvoid.nifty.tools Color SizeValue)
            de.lessvoid.nifty.Nifty
            com.jme3.niftygui.NiftyJmeDisplay
@@ -68,10 +69,9 @@
   (let [n (name k)
         type (re-find #"^[^\.#]+" n)
         id (re-find #"(?<=#)[^\.]+" n)
-        classes (seq (.split ^String
-                             (or (re-find #"(?<=\.)[^#]+$" n)
-                                 "")
-                             "\\."))]
+        classes (cstr/split (or (re-find #"(?<=\.)[^#]+$" n)
+                                "")
+                            #"\.")]
     {:type type
      :id id
      :classes classes}))
