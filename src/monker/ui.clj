@@ -294,30 +294,44 @@
                 (.layer this layer)))))
 
 ;; Standard controls
+(defn configure-standard-control [this params]
+  (if-let [ps (:parameters params)]
+    (doseq [[k v] parameters]
+      (let [name (util/dash-to-camel (name k))
+            value (if (or (string? v) (keyword? v))
+                    (util/dash-to-camel (name v))
+                    (str v))]
+        (.parameter this name value))))
+  (dissoc params :parameters))
+
 (extend-type ButtonBuilder
   util/Configurable
   (configure [this params]
-    (if-let [l (:label params)]
-      (.label this l))
-    (configure-element-builder
-      this (dissoc params :label))))
+    (let [params (configure-standard-control this params)]
+      (if-let [l (:label params)]
+        (.label this l))
+      (configure-element-builder
+        this (dissoc params :label)))))
 
 (extend-type CheckboxBuilder
   util/Configurable
   (configure [this params]
-    (if-let [c? (:checked? params)]
-      (.checked this c?))
-    (configure-element-builder
-      this (dissoc params :checked?))))
+    (let [params (configure-standard-control this params)]
+      (if-let [c? (:checked? params)]
+        (.checked this c?))
+      (configure-element-builder
+        this (dissoc params :checked?)))))
+
 
 (extend-type LabelBuilder
   util/Configurable
   (configure [this params]
-    (let [{:keys [label wrap?]} params]
-      (if label (.label this label))
-      (if wrap? (.wrap this wrap?)))
-    (configure-element-builder
-      this (dissoc params :label :wrap?))))
+    (let [params (configure-standard-control this params)]
+      (let [{:keys [label wrap?]} params]
+        (if label (.label this label))
+        (if wrap? (.wrap this wrap?)))
+      (configure-element-builder
+        this (dissoc params :label :wrap?)))))
 
 (defn element
   "Create an element.
