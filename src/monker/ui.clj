@@ -276,7 +276,6 @@
 (extend-type ScreenBuilder
   util/Configurable
   (configure [this params]
-             (println params)
     (util/configure-helper
       params param
       :controller (.controller this param)
