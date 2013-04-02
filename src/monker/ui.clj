@@ -200,7 +200,7 @@
   (cond
     (instance? SizeValue obj) obj
     (string? obj) (SizeValue. obj)
-    (util/convert-err obj)))
+    :else (util/convert-err obj)))
 
 ;; =====
 ;; Elements
