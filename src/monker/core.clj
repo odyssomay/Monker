@@ -176,8 +176,9 @@
                         (simpleInitApp [] (init this))
                         (simpleUpdate [tpf] (update this tpf))
                         (destroy []
-                          (stop this)
-                          (proxy-super destroy)))
+                          (let [^SimpleApplication this this]
+                            (stop this)
+                            (proxy-super destroy))))
                       args)]
         (.start app (jme-app-type context-type))
         app)
