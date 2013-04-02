@@ -441,17 +441,18 @@
                   options)
         builder
         (case type
-          :button (ButtonBuilder. (get-id))
-          :checkbox (CheckboxBuilder.)
-          :console (ConsoleBuilder. (get-id))
-          :drop-down (DropDownBuilder. (get-id))
           :image  (ImageBuilder.)
-          :label (LabelBuilder.)
           :layer  (LayerBuilder.)
           :panel  (PanelBuilder.)
           :popup  (PopupBuilder.)
           :screen (ScreenBuilder. (get-id))
           :text   (TextBuilder.)
+          ;; controls
+          :button (ButtonBuilder. (get-id))
+          :checkbox (CheckboxBuilder.)
+          :console (ConsoleBuilder. (get-id))
+          :drop-down (DropDownBuilder. (get-id))
+          :label (LabelBuilder.)
           )]
     (util/conf-int builder options)))
 
