@@ -2,7 +2,7 @@
   (:use [monker.ui])
   (:require [monker.core :as mkr]))
 
-(defn test-run []
+(defn test1 []
   (.setLevel (java.util.logging.Logger/getLogger "")
              java.util.logging.Level/WARNING)
   (mkr/application
@@ -10,21 +10,19 @@
     (fn [app]
       (let [n (nifty-display app)
             ni (nifty n)
-            s (screen :id "start"
-                      :layers
-                      [(into-element
-                         [:layer
-                          (list [:panel {:background "#f00"
-                                         :width "10%"
-                                         :height "30%"}]
-                                [:panel {:background "#00f"
-                                         :width "10%"
-                                         :height "10%"}])
-                          [:panel {:background "#0f0"
-                                   :width "10%"
-                                   :height "20%"
-                                   :halign :right}]]
-                         )])]
+            s (into-element
+                [:screen#start
+                 [:layer
+                  [:panel {:width "10%" :height "10%"
+                           :background "#f00"}]
+                  [:panel {:width "10%" :height "20%"
+                           :background "#0f0"}]
+                  [:panel {:width "10%" :height "30%"
+                           :background "#00f"}]]])]
+        (.addScreen ni "start" (.build s ni))
+        (.gotoScreen ni "start")))
+    :settings {:frame-rate 60}))
+
         (.addScreen ni "start" (.build s ni))
         (.gotoScreen ni "start")))
     :settings {:frame-rate 60}
