@@ -300,7 +300,7 @@
     (configure-element-builder
       this (dissoc params :label))))
 
-(extend-type CheckBoxBuilder
+(extend-type CheckboxBuilder
   util/Configurable
   (configure [this params]
     (if-let [c? (:checked? params)]
