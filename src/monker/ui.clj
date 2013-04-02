@@ -18,6 +18,7 @@
            de.lessvoid.nifty.controls.button.builder.ButtonBuilder
            de.lessvoid.nifty.controls.checkbox.builder.CheckboxBuilder
            de.lessvoid.nifty.controls.console.builder.ConsoleBuilder
+           de.lessvoid.nifty.controls.dropdown.builder.DropDownBuilder
            de.lessvoid.nifty.controls.label.builder.LabelBuilder))
 
 ;; =====
@@ -332,6 +333,12 @@
       (configure-element-builder
         this (dissoc params :lines)))))
 
+(extend-type DropDownBuilder
+  util/Configurable
+  (configure [this params]
+    (let [params (configure-standard-control this params)]
+      (configure-element-builder this params))))
+
 (extend-type LabelBuilder
   util/Configurable
   (configure [this params]
@@ -436,6 +443,7 @@
           :button (ButtonBuilder. (get-id))
           :checkbox (CheckboxBuilder.)
           :console (ConsoleBuilder. (get-id))
+          :drop-down (DropDownBuilder. (get-id))
           :label (LabelBuilder.)
           )]
     (util/conf-int builder options)))
