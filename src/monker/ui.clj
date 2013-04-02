@@ -389,7 +389,7 @@
    :checkbox
    :console *
    :drop-down *
-   :image-select
+   :image-select *
    :label
   
   * Requires the :id option.
