@@ -192,7 +192,11 @@
   ([r g b] (color r g b 1.0))
   ([r g b a] (Color. r g b a)))
 
-(defn size-value [obj]
+(defn size-value
+  "Create a SizeValue."
+  {:arglists '([string]
+               [size-value])}
+  [obj]
   (cond
     (instance? SizeValue obj) obj
     (string? obj) (SizeValue. obj)
