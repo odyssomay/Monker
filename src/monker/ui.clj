@@ -550,9 +550,9 @@
       params param
       :length (.length this param)
       :once? (.oneShot this param)
-      :parameters (doseq [parameter param]
-                    (.effectParameter
-                      this parameter)))))
+      :parameters
+      (doseq [[k v] param]
+        (.effectParameter this k v)))))
 
 (defn effect [effect & {:as options}]
   (let [effect (util/dash-to-camel (name effect))]
