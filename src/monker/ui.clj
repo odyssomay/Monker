@@ -146,7 +146,7 @@
     (merge class-map id-map)))
 
 ;; =====
-;; Elements
+;; Tools
 ;; =====
 (defn color
   "Create a Color.
