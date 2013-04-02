@@ -308,7 +308,7 @@
                 (.layer this layer)))))
 
 ;; Standard controls
-(defn configure-standard-control [this params]
+(defn configure-standard-control [^ControlBuilder this params]
   (if-let [ps (:parameters params)]
     (doseq [[k v] ps]
       (let [name (util/dash-to-camel (name k))
