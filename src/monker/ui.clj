@@ -185,6 +185,9 @@
   ([r g b] (color r g b 1.0))
   ([r g b a] (Color. r g b a)))
 
+;; =====
+;; Elements
+;; =====
 (defn margin! [^ElementBuilder el m]
   (cond
     (number? m) (.margin el (str m))
