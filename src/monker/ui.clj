@@ -19,6 +19,7 @@
            de.lessvoid.nifty.controls.checkbox.builder.CheckboxBuilder
            de.lessvoid.nifty.controls.console.builder.ConsoleBuilder
            de.lessvoid.nifty.controls.dropdown.builder.DropDownBuilder
+           de.lessvoid.nifty.controls.imageselect.builder.ImageSelectBuilder
            de.lessvoid.nifty.controls.label.builder.LabelBuilder))
 
 ;; =====
@@ -349,6 +350,18 @@
     (let [params (configure-standard-control this params)]
       (configure-element-builder this params))))
 
+(extend-type ImageSelectBuilder
+  util/Configurable
+  (configure [this params]
+    (let [params (configure-standard-control this params)]
+      (util/configure-helper
+        params param
+        :images (doseq [filename param]
+                  (.addImage this filename))
+        :image-height (.setImageHeight this (size-value param))
+        :image-width (.setImageWidth this (size-value param)))
+      (configure-element-builder this params))))
+
 (extend-type LabelBuilder
   util/Configurable
   (configure [this params]
@@ -445,8 +458,8 @@
           :checkbox (CheckboxBuilder.)
           :console (ConsoleBuilder. (get-id))
           :drop-down (DropDownBuilder. (get-id))
-          :label (LabelBuilder.)
-          )]
+          :image-select (ImageSelectBuilder. (get-id))
+          :label (LabelBuilder.))]
     (util/conf-int builder options)))
 
 (declare into-element)
