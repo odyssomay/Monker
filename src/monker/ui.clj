@@ -360,7 +360,8 @@
                   (.addImage this filename))
         :image-height (.setImageHeight this (size-value param))
         :image-width (.setImageWidth this (size-value param)))
-      (configure-element-builder this params))))
+      (configure-element-builder
+        this (dissoc params :images :image-height :image-width)))))
 
 (extend-type LabelBuilder
   util/Configurable
