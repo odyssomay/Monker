@@ -23,6 +23,20 @@
         (.gotoScreen ni "start")))
     :settings {:frame-rate 60}))
 
+(defn test2 []
+  (.setLevel (java.util.logging.Logger/getLogger "")
+             java.util.logging.Level/WARNING)
+  (mkr/application
+    :init
+    (fn [app]
+      (let [n (nifty-display app)
+            ni (nifty n)
+            s (into-element
+                [:screen#start
+                 [:layer
+                  [:label {:label "hello world!"}]]])]
+        (.loadStyleFile ni "nifty-default-styles.xml")
+        (.loadControlFile ni "nifty-default-controls.xml")
         (.addScreen ni "start" (.build s ni))
         (.gotoScreen ni "start")))
     :settings {:frame-rate 60}
