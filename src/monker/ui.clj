@@ -353,11 +353,19 @@
   "Create an element.
   
   Types:
+   :button *
+   :checkbox
+   :console *
+   :drop-down *
    :image
+   :label
    :layer
    :panel
    :popup
+   :screen *
    :text
+   
+  * Requires the :id option.
    
   Options (except for :screen - see below):
    :background - a color
