@@ -6,6 +6,7 @@
            com.jme3.app.Application
            de.lessvoid.nifty.controls.Controller
            (de.lessvoid.nifty.builder
+             EffectBuilder
              ElementBuilder
              ImageBuilder
              LayerBuilder
