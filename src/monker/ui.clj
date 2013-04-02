@@ -17,6 +17,7 @@
              TextBuilder)
            de.lessvoid.nifty.controls.button.builder.ButtonBuilder
            de.lessvoid.nifty.controls.checkbox.builder.CheckboxBuilder
+           de.lessvoid.nifty.controls.console.builder.ConsoleBuilder
            de.lessvoid.nifty.controls.label.builder.LabelBuilder))
 
 ;; =====
