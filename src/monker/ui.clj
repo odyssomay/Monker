@@ -435,6 +435,7 @@
           ;; controls
           :button (ButtonBuilder. (get-id))
           :checkbox (CheckboxBuilder.)
+          :console (ConsoleBuilder. (get-id))
           :label (LabelBuilder.)
           )]
     (util/conf-int builder options)))
