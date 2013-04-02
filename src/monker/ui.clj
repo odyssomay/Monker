@@ -6,6 +6,7 @@
            com.jme3.app.Application
            de.lessvoid.nifty.controls.Controller
            (de.lessvoid.nifty.builder
+             ControlBuilder
              EffectBuilder
              ElementBuilder
              ImageBuilder
@@ -220,7 +221,8 @@
   (condp instance? item
     ImageBuilder (.image el item)
     PanelBuilder (.panel el item)
-    TextBuilder  (.text el ^TextBuilder item)))
+    TextBuilder  (.text el ^TextBuilder item)
+    ControlBuilder (.control el item)))
 
 (defn add-items [el items]
   (doseq [item items]
