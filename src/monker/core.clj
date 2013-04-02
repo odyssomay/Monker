@@ -175,11 +175,9 @@
             (conf-int (proxy [SimpleApplication] []
                         (simpleInitApp [] (init this))
                         (simpleUpdate [tpf] (update this tpf))
-                        (stop
-                          ([] (.stop this false))
-                          ([wait?]
-                           (stop this)
-                           (proxy-super stop wait?))))
+                        (destroy []
+                          (stop this)
+                          (proxy-super destroy)))
                       args)]
         (.start app (jme-app-type context-type))
         app)
