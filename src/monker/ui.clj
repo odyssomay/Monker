@@ -471,7 +471,7 @@
 
 (defn effect [effect & {:as options}]
   (let [effect (util/dash-to-camel (name effect))]
-    (conf-int (EffectBuilder. effect) options)))
+    (util/conf-int (EffectBuilder. effect) options)))
 
 (defn ui
   "Create a user interface."
