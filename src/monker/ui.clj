@@ -405,7 +405,12 @@
           :screen (if-let [id (:id options)]
                     (ScreenBuilder. id)
                     (util/req-err :id))
-          :text   (TextBuilder.))]
+          :text   (TextBuilder.)
+          ;; controls
+          :button (ButtonBuilder. (:id options))
+          :checkbox (CheckboxBuilder.)
+          :label (LabelBuilder.)
+          )]
     (util/conf-int builder options)))
 
 (declare into-element)
