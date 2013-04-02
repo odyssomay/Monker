@@ -308,7 +308,7 @@
 ;; Standard controls
 (defn configure-standard-control [this params]
   (if-let [ps (:parameters params)]
-    (doseq [[k v] parameters]
+    (doseq [[k v] ps]
       (let [name (util/dash-to-camel (name k))
             value (if (or (string? v) (keyword? v))
                     (util/dash-to-camel (name v))
