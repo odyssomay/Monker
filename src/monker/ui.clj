@@ -20,7 +20,8 @@
            de.lessvoid.nifty.controls.console.builder.ConsoleBuilder
            de.lessvoid.nifty.controls.dropdown.builder.DropDownBuilder
            de.lessvoid.nifty.controls.imageselect.builder.ImageSelectBuilder
-           de.lessvoid.nifty.controls.label.builder.LabelBuilder))
+           de.lessvoid.nifty.controls.label.builder.LabelBuilder
+           de.lessvoid.nifty.controls.listbox.builder.ListBoxBuilder))
 
 ;; =====
 ;; Nifty
@@ -373,6 +374,31 @@
       (configure-element-builder
         this (dissoc params :label :wrap?)))))
 
+(extend-type ListBoxBuilder
+  util/Configurable
+  (configure [this params]
+    (let [params (configure-standard-control this params)]
+      (util/configure-helper
+        params param
+        :display-items (.displayItems this param)
+        :horizontal-scrollbar
+        (case param
+          :hide     (.hideHorizontalScrollbar this)
+          :optional (.optionalHorizontalScrollbar this)
+          :show     (.showHorizontalScrollbar this))
+        :selection-mode
+        (case param
+          :disabled (.selectionModeDisabled this)
+          ;; "Mutliple" is a typo in nifty-gui itself
+          :multiple (.selectionModeMutliple this)
+          :single   (.selectionModeSingle this))
+        :vertical-scrollbar
+        (case param
+          :hide     (.hideVerticalScrollbar this)
+          :optional (.optionalVerticalScrollbar this)
+          :show     (.showVerticalScrollbar this)))
+      (configure-element-builder this params))))
+
 (defn element
   "Create an element.
   
@@ -391,6 +417,7 @@
    :drop-down *
    :image-select *
    :label
+   :list-box
   
   * Requires the :id option.
   
@@ -460,7 +487,8 @@
           :console (ConsoleBuilder. (get-id))
           :drop-down (DropDownBuilder. (get-id))
           :image-select (ImageSelectBuilder. (get-id))
-          :label (LabelBuilder.))]
+          :label (LabelBuilder.)
+          :list-box (ListBoxBuilder.))]
     (util/conf-int builder options)))
 
 (declare into-element)
