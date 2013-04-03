@@ -43,6 +43,20 @@
     :settings {:frame-rate 60}
     ))
 
+(defn test3 []
+  (.setLevel (java.util.logging.Logger/getLogger "")
+             java.util.logging.Level/WARNING)
+  (mkr/application
+    :init
+    (fn [app]
+      (ui app
+          :screens [[:screen#start
+                     [:layer
+                      [:panel {:width "50%"
+                               :height "50%"
+                               :background "#f00"}]]]]
+          :start-screen :start))))
+
 ; (defn test-styles []
 ;   (style
 ;     [:#b-id.a-class.b-class
