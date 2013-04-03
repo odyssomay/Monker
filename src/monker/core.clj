@@ -224,9 +224,10 @@
   {:arglists '([asset-manager]
                [app])}
   [obj]
-  (if (asset-manager? obj)
-    obj
-    (.getAssetManager ^Application obj)))
+  (cond
+    (asset-manager? obj) obj
+    (app?) (.getAssetManager ^Application obj)
+    :else (util/convert-err obj)))
 
 (defn load-model
   "Returns a Spatial.
