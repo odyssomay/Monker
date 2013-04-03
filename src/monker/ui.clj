@@ -50,11 +50,12 @@
   {:arglists '([app & options]
                [nifty-display & options])}
   [obj & {:as options}]
-  (let [{:keys [style screens]} options
+  (let [{:keys [style screens start-screen]} options
         nifty-display (nifty-display obj)
         nifty (nifty nifty-display)]
     (doseq [screen screens]
       (let [e (element/into-element screen)
             built (.build e nifty)]
         (.addScreen nifty (.getScreenId built) built)))
+    (.gotoScreen nifty (or (name start-screen) "start"))
     nifty-display))
