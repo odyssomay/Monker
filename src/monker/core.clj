@@ -212,7 +212,7 @@
 (defn asset-manager? [obj]
   (instance? com.jme3.asset.AssetManager obj))
 
-(defn asset-manager
+(defn ^AssetManager asset-manager
   "Takes either an
   
     com.jme3.asset.AssetManager
@@ -236,7 +236,7 @@
   monker.core/asset-manager."
   {:arglists '([asset-manager path & options])}
   [am-obj path & {:as options}]
-  (let [^AssetManager am (asset-manager am-obj)]
+  (let [am (asset-manager am-obj)]
     (conf-int (.loadModel am ^String path)
               options)))
 
@@ -247,7 +247,7 @@
   monker.core/asset-manager."
   {:arglists '([asset-manager path & options])}
   [am-obj path & {:as options}]
-  (let [^AssetManager am (asset-manager am-obj)]
+  (let [am (asset-manager am-obj)]
     (conf-int (.loadAudio am ^String path)
               options)))
 
@@ -311,7 +311,7 @@
 (defn lit-material
   ""
   [app texture-map]
-  (let [^AssetManager am (asset-manager app)
+  (let [am (asset-manager app)
         textures (for [[k path] texture-map]
                    [(case k
                       :diffuse "DiffuseMap"
