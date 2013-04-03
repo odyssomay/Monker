@@ -269,7 +269,7 @@
 ;; =====
 ;; Color
 ;; =====
-(defn color
+(defn ^ColorRGBA color
   "Create a ColorRGBA"
   ([c] (cond
          (instance? com.jme3.math.ColorRGBA c) c
@@ -297,7 +297,7 @@
                   (.setTexture this texture-name texture))
       )))
 
-(defn material
+(defn ^Material material
   "Create a Material
   
   Options:
@@ -343,7 +343,7 @@
 
 (defn mesh? [obj] (instance? Mesh obj))
 
-(defn geometry
+(defn ^Geometry geometry
   ""
   {:arglists '([name mesh & options]
                [mesh & options])}
@@ -358,7 +358,7 @@
 ;; =====
 ;; Node
 ;; =====
-(defn node
+(defn ^Node node
   ""
   ([] (Node. (str (gensym))))
   ([s] (Node. (name s))))
@@ -366,7 +366,7 @@
 ;; =====
 ;; Shape
 ;; =====
-(defn box
+(defn ^Box box
   "Create a Box
   Should be treated as a mesh.
   
@@ -375,13 +375,14 @@
   "
   [x y z] (Box. x y z))
 
-(defn sphere
+(defn ^Sphere sphere
   "Create a Sphere
   Should be treated as a mesh.
   "
   [z-samples radial-samples radius]
   (Sphere. z-samples radial-samples radius))
-(defn line
+
+(defn ^Sphere line
   "Create a Line
   Should be treated as a mesh.
   
