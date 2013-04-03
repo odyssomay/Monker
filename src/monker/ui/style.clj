@@ -1,5 +1,6 @@
 (ns monker.ui.style
-  (:require [clojure.string :as cstr]))
+  (:require [monker.util :as util]
+            [clojure.string :as cstr]))
 
 (defn split-id-class-keyword [k]
   (let [n (name k)

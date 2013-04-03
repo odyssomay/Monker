@@ -1,5 +1,6 @@
 (ns monker.test.ui
-  (:use [monker.ui])
+  (:use [monker.ui]
+        (monker.ui element))
   (:require [monker.core :as mkr]))
 
 (defn test1 []
@@ -42,13 +43,13 @@
     :settings {:frame-rate 60}
     ))
 
-(defn test-styles []
-  (style
-    [:#b-id.a-class.b-class
-     :a 3 :b 4
-     (list :x 10 :y 12)
-     [:.sub-class
-      :x :bla]]
-    [:#a-id.a-class :x 5 :y 6 :a 4]
-    [:#a-id.b-class :stuff "hello" :a 5]
-    ))
+; (defn test-styles []
+;   (style
+;     [:#b-id.a-class.b-class
+;      :a 3 :b 4
+;      (list :x 10 :y 12)
+;      [:.sub-class
+;       :x :bla]]
+;     [:#a-id.a-class :x 5 :y 6 :a 4]
+;     [:#a-id.b-class :stuff "hello" :a 5]
+;     ))

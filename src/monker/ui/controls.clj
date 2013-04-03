@@ -1,6 +1,10 @@
 (ns monker.ui.controls
-  (:require [monker.util :as util])
-  (:import de.lessvoid.nifty.controls.button.builder.ButtonBuilder
+  (:use [monker.ui.configure-element :only [configure-element-builder]])
+  (:require [monker.util :as util]
+            (monker.ui [tools :as tools]))
+  (:import (de.lessvoid.nifty.builder
+             ControlBuilder)
+           de.lessvoid.nifty.controls.button.builder.ButtonBuilder
            de.lessvoid.nifty.controls.checkbox.builder.CheckboxBuilder
            de.lessvoid.nifty.controls.console.builder.ConsoleBuilder
            de.lessvoid.nifty.controls.dropdown.builder.DropDownBuilder
@@ -60,8 +64,8 @@
         params param
         :images (doseq [filename param]
                   (.addImage this filename))
-        :image-height (.setImageHeight this (size-value param))
-        :image-width (.setImageWidth this (size-value param)))
+        :image-height (.setImageHeight this (tools/size-value param))
+        :image-width (.setImageWidth this (tools/size-value param)))
       (configure-element-builder
         this (dissoc params :images :image-height :image-width)))))
 
