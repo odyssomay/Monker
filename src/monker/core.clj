@@ -34,19 +34,19 @@
   ([x y z]   (Vector3f. x y z))
   ([x y z w] (Vector4f. x y z w)))
 
-(defn jvector2
+(defn ^Vector2f jvector2
   "Create a Vector2f."
   ([] Vector2f/ZERO)
   ([v] (Vector2f. v v))
   ([x y] (Vector2f. x y)))
 
-(defn jvector3
+(defn ^Vector3f jvector3
   "Create a Vector3f."
   ([] Vector3f/ZERO)
   ([v] (Vector3f. v v v))
   ([x y z] (Vector3f. x y z)))
 
-(defn jvector4
+(defn ^Vector4f jvector4
   "Create a Vector4f."
   ([] Vector4f/ZERO)
   ([v] (Vector4f. v v v v))
@@ -70,7 +70,7 @@
       :vsync? (.setVSync s param)
       :width (.setWidth s param))))
 
-(defn settings
+(defn ^AppSettings settings
   "Create AppSettings.
   
   Options:
@@ -118,7 +118,7 @@
     :canvas com.jme3.system.JmeContext$Type/Canvas
     :offscreen com.jme3.system.JmeContext$Type/OffscreenSurface))
 
-(defn application
+(defn ^SimpleApplication application
   "Create a SimpleApplication
   
   The :init option is required.
