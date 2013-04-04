@@ -22,7 +22,7 @@
                            :background "#00f"}]]])]
         (.addScreen ni "start" (.build s ni))
         (.gotoScreen ni "start")))
-    :settings {:frame-rate 60}))
+    :settings {:vsync true}))
 
 (defn test2 []
   (.setLevel (java.util.logging.Logger/getLogger "")
@@ -40,8 +40,7 @@
         (.loadControlFile ni "nifty-default-controls.xml")
         (.addScreen ni "start" (.build s ni))
         (.gotoScreen ni "start")))
-    :settings {:frame-rate 60}
-    ))
+    :settings {:vsync? true}))
 
 (defn test3 []
   (.setLevel (java.util.logging.Logger/getLogger "")
@@ -55,7 +54,8 @@
                       [:panel {:width "50%"
                                :height "50%"
                                :background "#f00"}]]]]
-          :start-screen :start))))
+          :start-screen :start))
+    :settings {:vsync? true}))
 
 ; (defn test-styles []
 ;   (style
