@@ -15,6 +15,11 @@
      :id id
      :classes classes}))
 
+(defn into-selector [obj]
+  (if (keyword? obj)
+    (split-id-class-keyword obj)
+    obj))
+
 (defn flatten-children [children]
   (reduce (fn [v n]
             (if (list? n)
@@ -42,25 +47,32 @@
 
 (defn find-in-find-map [find-map selector])
 
-(defn vec->tree [v fns]
+(defn vec->node [v into-object]
   (let [[k & more] v
         [options & children] (if (map? (first more))
                                more (cons {} more))
         {:keys [id type classes] :as selector}
-        (split-id-class-keyword k)
-        children (map vec->node (flatten-children children))
-        find-map (into-find-map selector (gensym))
-        find-maps (cons find-map (map :find-map children))
+        (into-selector k)
+        children (map #(vec->node % into-object)
+                      (flatten-children children))
         m {:selector selector
            :children children
-           :options options
-           :find-map (merge-find-maps find-maps)}]
-    m))
+           :options options}
+        object (into-object m)
+        find-map (into-find-map selector (gensym))
+        find-maps (cons find-map (map :find-map children))]
+    (assoc m
+      :find-map (merge-find-maps find-maps)
+      :object object)))
 
 ;; =====
 ;; Style
 ;; =====
-(declare merge-styles)
+
+;; Creating
+
+(declare merge-styles vec->style)
+
 (defn vec->style-map [more]
   (let [{sub-styles true options false}
         (group-by vector? more)
@@ -73,17 +85,14 @@
 (defn vec->style [style]
   (let [[k & more] style
         style-map (vec->style-map more)
-        {:keys [type id classes]} (split-id-class-keyword k)
-        sm
-    {:ids (if id (assoc {} id style-map))
-     :classes (reduce (fn [m class]
-                        (assoc m class style-map))
-                      {} classes)}]
-    (if type
-      {:types (assoc {} type sm)}
-      sm)))
+        {:keys [type id classes]} (into-selector k)]
+    {:types (if type (assoc {} type style-map))
+     :ids (if id (assoc {} id style-map))
+     :classes (into {} (map #(vector % style-map)
+                            classes))}))
 
 (defn merge-style-map
+  ([] nil)
   ([sm] sm)
   ([sm1 sm2]
    (let [{opts1 :options
@@ -91,7 +100,11 @@
          {opts2 :options
           sub2 :sub-style} sm2]
      {:options (merge opts1 opts2)
-      :sub-style (merge-styles sub1 sub2)})))
+      :sub-style (merge-styles sub1 sub2)}))
+  ([sm1 sm2 sm3 & more]
+   (apply merge-style-map
+          (merge-style-map sm1 sm2)
+          sm3 more)))
 
 (defn merge-styles
   ([] nil)
@@ -99,14 +112,26 @@
   ([style1 style2]
    (let [{ids1 :ids classes1 :classes} style1
          {ids2 :ids classes2 :classes} style2]
-     {:ids (merge-with merge-style-map ids1 ids2)
+     {:types (merge-with merge-style-map
+                         (:types style1) (:types style2))
+      :ids (merge-with merge-style-map ids1 ids2)
       :classes (merge-with merge-style-map classes1 classes2)}))
   ([style1 style2 & more]
    (let [s (merge-styles style1 style2)]
      (apply merge-styles s more))))
 
+(defn into-style
+  [& styles]
+  (let [styles (map vec->style (flatten-children
+                                 styles))]
+    (reduce merge-styles styles)))
+
+;; Quering/applying
+
 (defn select-style-with-type [style type]
-  style)
+  (if type
+    (get (:types style) type nil)
+    style))
 
 (defn select-style-with-id [style id]
   (get-in style [:ids id]))
@@ -119,41 +144,45 @@
           (map #(select-style-with-class style %)
                classes)))
 
-; (defn select-style [style selector]
-;   (let [{:keys [id classes]}
-;         (split-id-class-keyword selector)
-;         id-style ()]
-    
-;     ))
+(defn select-style [style selector]
+  (let [{:keys [type id classes]}
+        (into-selector selector)
+        type-style (select-style-with-type
+                     style type)
+        id-style (select-style-with-id
+                   style id)
+        class-style (select-style-with-classes
+                      style classes)
+        combined (merge-style-map
+                   type-style id-style class-style)]
+    combined))
 
 (defn get-sub-style [style selector]
   (let [s (select-style style selector)]
-    (merge-styles s (:sub-style s))))
+    (merge-styles style (:sub-style s))))
 
-; (defn style
-;   ""
-;   ([style]
-;    (cond
-;      (map? style) style
-;      (vector? style) (vec->style style)))
-;   ([style1 style2 & styles]
-;    (let [style-maps (map style (concat [style1 style2]
-;                                        styles))]
-;      (reduce merge-styles style-maps))))
+(defn apply-style-f [node style f]
+  (let [{:keys [selector children options]} node
+        options (merge (:options (select-style style selector))
+                       options)
+        sub-style (get-sub-style style selector)]
+    (f node options)
+    (doseq [c children]
+      (apply-style-f c sub-style f))
+    nil))
 
-; (defn apply-style-map [el style-map]
-;   (c/conf-int el (:options style-map)))
+;; =====
+;; JME specific
+;; =====
+(defn apply-options-to-node [node options]
+  (println "applying" options "to" (:object node) "."))
 
-; (defn get-style-map [k style]
-;   (let [{:keys [id classes]}
-;         (split-id-class-keyword k)
-;         id-map (get-in style [:ids id])
-;         class-map
-;         (reduce (fn [m c]
-;                   (merge-style-map
-;                     m
-;                     (get-in style
-;                             [:classes c])))
-;                 {}
-;                 classes)]
-;     (merge class-map id-map)))
+(defn style!
+  ""
+  [node style]
+  (apply-style-f node style apply-options-to-node))
+
+(defn node
+  ""
+  [v]
+  )
