@@ -1,5 +1,6 @@
 (ns monker.ui.style
-  (:require [monker.util :as util]
+  (:require (monker [configure :as c]
+                    [util :as util])
             [clojure.string :as cstr]))
 
 (defn split-id-class-keyword [k]
@@ -68,7 +69,7 @@
      (reduce merge-styles style-maps))))
 
 (defn apply-style-map [el style-map]
-  (util/conf-int el (:options style-map)))
+  (c/conf-int el (:options style-map)))
 
 (defn get-style-map [k style]
   (let [{:keys [id classes]}

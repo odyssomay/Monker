@@ -1,9 +1,10 @@
-(ns monker.ui.effect)
+(ns monker.ui.effect
+  (:require [monker.configure :as c]))
 
 (extend-type EffectBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
-    (util/configure-helper
+    (c/configure-helper
       params param
       :length (.length this param)
       :once? (.oneShot this param)
@@ -13,4 +14,4 @@
 
 (defn ^EffectBuilder effect [effect & {:as options}]
   (let [effect (util/dash-to-camel (name effect))]
-    (util/conf-int (EffectBuilder. effect) options)))
+    (c/conf-int (EffectBuilder. effect) options)))

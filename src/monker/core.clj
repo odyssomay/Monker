@@ -1,11 +1,12 @@
 (ns monker.core
-  (:use [monker.util
+  (:use [monker.configure
          :only [Configurable
-                conf-int configure-helper]
-         :as util])
-  (:require (monker [input :as input]))
+                conf-int configure-helper]])
+  (:require (monker [configure :as c]
+                    [input :as input]
+                    [util :as util]))
   (:import com.jme3.asset.AssetManager
-           (com.jme3.math Vector2f Vector3f Vector4f)
+           (com.jme3.math ColorRGBA Vector2f Vector3f Vector4f)
            (com.jme3.app
              Application
              SimpleApplication)
@@ -15,7 +16,7 @@
            com.jme3.scene.Node
            (com.jme3.scene.shape Box Sphere Line)))
 
-(defn config! [obj & {:as params}] (conf-int obj params))
+(def config! c/config!)
 
 ;; =====
 ;; Vector (Vector2f, Vector3f, Vector4f)

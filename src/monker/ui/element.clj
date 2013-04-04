@@ -1,5 +1,6 @@
 (ns monker.ui.element
-  (:require [monker.util :as util]
+  (:require (monker [configure :as c]
+                    [util :as util])
             (monker.ui configure-element controls
                        [style :as style]))
   (:import (de.lessvoid.nifty.builder
@@ -109,7 +110,7 @@
           :image-select (ImageSelectBuilder. (get-id))
           :label (LabelBuilder.)
           :list-box (ListBoxBuilder.))]
-    (util/conf-int builder options)))
+    (c/conf-int builder options)))
 
 (declare into-element)
 (defn vec->options [v]

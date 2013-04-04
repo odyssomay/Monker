@@ -1,6 +1,7 @@
 (ns monker.ui.controls
   (:use [monker.ui.configure-element :only [configure-element-builder]])
-  (:require [monker.util :as util]
+  (:require (monker [configure :as c]
+                    [util :as util])
             (monker.ui [tools :as tools]))
   (:import (de.lessvoid.nifty.builder
              ControlBuilder)
@@ -24,7 +25,7 @@
   (dissoc params :parameters))
 
 (extend-type ButtonBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
       (if-let [l (:label params)]
@@ -33,7 +34,7 @@
         this (dissoc params :label)))))
 
 (extend-type CheckboxBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
       (if-let [c? (:checked? params)]
@@ -42,7 +43,7 @@
         this (dissoc params :checked?)))))
 
 (extend-type ConsoleBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
       (if-let [lines (:lines params)]
@@ -51,16 +52,16 @@
         this (dissoc params :lines)))))
 
 (extend-type DropDownBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
       (configure-element-builder this params))))
 
 (extend-type ImageSelectBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
-      (util/configure-helper
+      (c/configure-helper
         params param
         :images (doseq [filename param]
                   (.addImage this filename))
@@ -70,7 +71,7 @@
         this (dissoc params :images :image-height :image-width)))))
 
 (extend-type LabelBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
       (let [{:keys [label wrap?]} params]
@@ -80,10 +81,10 @@
         this (dissoc params :label :wrap?)))))
 
 (extend-type ListBoxBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (let [params (configure-standard-control this params)]
-      (util/configure-helper
+      (c/configure-helper
         params param
         :display-items (.displayItems this param)
         :horizontal-scrollbar

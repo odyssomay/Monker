@@ -1,6 +1,6 @@
 (ns monker.ui.configure-element
   (:use [monker.ui.tools :only [color]])
-  (:require [monker.util :as util])
+  (:require (monker [configure :as c]))
   (:import de.lessvoid.nifty.controls.Controller
            de.lessvoid.nifty.tools.Color
            (de.lessvoid.nifty.builder
@@ -48,7 +48,7 @@
 
 (defn configure-element-builder
   [^ElementBuilder this params]
-  (util/configure-helper
+  (c/configure-helper
     params param
     :background (.backgroundColor
                   this ^Color (color param))
@@ -89,21 +89,21 @@
     ))
 
 (extend-type ElementBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (configure-element-builder this params)))
 
 (extend-type TextBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
     (configure-element-builder
       this (dissoc params :wrap?))
     (.wrap this (boolean (:wrap? params)))))
 
 (extend-type ScreenBuilder
-  util/Configurable
+  c/Configurable
   (configure [this params]
-    (util/configure-helper
+    (c/configure-helper
       params param
       :controller (.controller this param)
       :focus (.defaultFocusElement this param)
