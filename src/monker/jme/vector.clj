@@ -136,27 +136,27 @@
 ;; Set/get
 ;; ======
 (defn x
-  ""
+  "Get the x component of v."
   [v] (get-v v 0))
 
 (defn x!
-  ""
+  "Set the x component of v to new-x."
   [v new-x] (set-v v 0 new-x))
 
 (defn y
-  ""
+  "Get the y component of v."
   [v] (get-v v 1))
 
 (defn y!
-  ""
+  "Set the y component of v to new-y"
   [v new-y] (set-v v 1 new-y))
 
 (defn z
-  ""
+  "Get the z component of v."
   [v] (get-v v 2))
 
 (defn z!
-  ""
+  "Set the z component of v to new-z."
   [v new-z] (set-v v 2 new-z))
 
 (defn jvector
