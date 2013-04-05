@@ -3,8 +3,11 @@
          :only [Configurable
                 conf-int configure-helper]])
   (:require (monker [configure :as c]
-                    [input :as input]
-                    [util :as util]))
+                    [util :as util])
+            (monker.jme 
+              [input :as input])
+            (monker.ui
+              [element :as element]))
   (:import com.jme3.asset.AssetManager
            (com.jme3.math ColorRGBA Vector2f Vector3f Vector4f)
            (com.jme3.app
@@ -14,7 +17,13 @@
            com.jme3.material.Material
            (com.jme3.scene Geometry Mesh Spatial)
            com.jme3.scene.Node
-           (com.jme3.scene.shape Box Sphere Line)))
+           (com.jme3.scene.shape Box Sphere Line)
+           
+           ;; Nifty
+           (de.lessvoid.nifty.builder
+             ScreenBuilder)
+           de.lessvoid.nifty.Nifty
+           com.jme3.niftygui.NiftyJmeDisplay))
 
 (defmacro import-symbols [ns-symbol symbols]
   `(do ~@(for [s symbols]
@@ -365,3 +374,60 @@
   ([] (Line.))
   ([start end]
    (Line. (jvector start) (jvector end))))
+
+;; =====
+;; Nifty
+;; =====
+
+;; =====
+;; Nifty
+;; =====
+(defn ^NiftyJmeDisplay nifty-display
+  "Create a NiftyJmeDisplay
+  and attach it to the application.
+  "
+  {:arglists '([app])}
+  [obj]
+  (cond
+    (instance? NiftyJmeDisplay obj) obj
+    (instance? Application obj)
+    (let [app ^Application obj
+          nifty-display (NiftyJmeDisplay.
+                          (.getAssetManager app)
+                          (.getInputManager app)
+                          (.getAudioRenderer app)
+                          (.getGuiViewPort app))]
+      (.addProcessor (.getGuiViewPort app) nifty-display)
+      nifty-display)
+    :else (util/convert-err obj)))
+
+(defn ^Nifty nifty
+  "Get a Nifty object."
+  {:arglists '([nifty] [nifty-display])}
+  [obj]
+  (cond
+    (instance? NiftyJmeDisplay obj)
+    (.getNifty ^NiftyJmeDisplay obj)
+    (instance? Nifty obj) obj
+    :else (util/convert-err obj)))
+
+(defn from-xml
+  "Load ui from xml."
+  [nifty-display path start-screen]
+  (.fromXml ^Nifty (nifty nifty-display)
+            path start-screen))
+
+(defn ui
+  "Create a user interface."
+  {:arglists '([app & options]
+               [nifty-display & options])}
+  [obj & {:as options}]
+  (let [{:keys [style screens start-screen]} options
+        nifty-display (nifty-display obj)
+        nifty (nifty nifty-display)]
+    (doseq [screen screens]
+      (let [e ^ScreenBuilder (element/into-element screen)
+            built (.build e nifty)]
+        (.addScreen nifty (.getScreenId built) built)))
+    (.gotoScreen nifty (or (name start-screen) "start"))
+    nifty-display))
