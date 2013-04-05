@@ -1,8 +1,7 @@
 (ns monker.ui.element
   (:require (monker [configure :as c]
                     [util :as util])
-            (monker.ui configure-element controls
-                       [style :as style]))
+            (monker.ui configure-element controls))
   (:import (de.lessvoid.nifty.builder
              ControlBuilder
              ElementBuilder
@@ -131,7 +130,7 @@
                [v style])}
   ([v] (vec->element v nil))
   ([v s]
-   (let [{:keys [id type]} (style/split-id-class-keyword (first v))
+   (let [{:keys [id type]} (tree/split-id-class-keyword (first v))
          options (vec->options (rest v))
          options (assoc options
                    :items
