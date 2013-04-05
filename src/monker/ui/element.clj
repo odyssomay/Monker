@@ -153,5 +153,6 @@
   [el]
   (cond
     (instance? ElementBuilder el) el
+    (instance? ScreenBuilder el) el
     (vector? el) (vec->element el)
     :else (util/convert-err el)))
