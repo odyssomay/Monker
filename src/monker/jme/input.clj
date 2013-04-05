@@ -1,4 +1,4 @@
-(ns monker.input
+(ns monker.jme.input
   (:require (monker [util :as util]))
   (:import (com.jme3.input.controls
              ActionListener

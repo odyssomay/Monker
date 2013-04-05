@@ -1,4 +1,4 @@
-(ns monker.physics
+(ns monker.jme.physics
   (:use [monker.util :only [Configurable
                             conf-int configure-helper]])
   (:import (com.jme3.bullet

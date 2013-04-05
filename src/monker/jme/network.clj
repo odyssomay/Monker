@@ -1,4 +1,4 @@
-(ns monker.network
+(ns monker.jme.network
   (:require [monker.util :as util]
             [clojure.edn :as edn])
   (:import (com.jme3.network
