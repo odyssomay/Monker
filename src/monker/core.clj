@@ -27,41 +27,6 @@
   [config!])
 
 ;; =====
-;; Vector (Vector2f, Vector3f, Vector4f)
-;; =====
-(defn jvector? [v] (or (instance? Vector2f)
-                       (instance? Vector3f)
-                       (instance? Vector4f)))
-
-(defn jvector
-  "Create a Vector2f, Vector3f or Vector4f.
-  
-  The one argument version either takes an instance
-  of the above, or a vector to convert."
-  ([v]       (if (jvector? v) v (apply jvector v)))
-  ([x y]     (Vector2f. x y))
-  ([x y z]   (Vector3f. x y z))
-  ([x y z w] (Vector4f. x y z w)))
-
-(defn ^Vector2f jvector2
-  "Create a Vector2f."
-  ([] Vector2f/ZERO)
-  ([v] (Vector2f. v v))
-  ([x y] (Vector2f. x y)))
-
-(defn ^Vector3f jvector3
-  "Create a Vector3f."
-  ([] Vector3f/ZERO)
-  ([v] (Vector3f. v v v))
-  ([x y z] (Vector3f. x y z)))
-
-(defn ^Vector4f jvector4
-  "Create a Vector4f."
-  ([] Vector4f/ZERO)
-  ([v] (Vector4f. v v v v))
-  ([x y z w] (Vector4f. x y z w)))
-
-;; =====
 ;; Application Settings
 ;; =====
 (defn settings? [obj] (instance? AppSettings obj))
