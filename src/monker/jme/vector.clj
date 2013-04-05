@@ -53,18 +53,24 @@
   vector
   (add [v1 v2]      (.add v1 v2))
   (divide [v1 v2]   (.divide v1 ^float v2))
-  (multiply [v1 v2] (.multiply v1 (jvector2 v2)))
+  (multiply [v1 v2] (.mult v1 v2))
   (negate [v]       (.negate v))
   (subtract [v1 v2] (.subtract v1 v2))
   (get-jme-vector [v] v)
-  (get-v [v index] (.get v index))
-  (set-v [v index value] (.set v index value)))
+  (get-v [v ^long index]
+    (case index
+      0 (.getX v)
+      1 (.getY v)))
+  (set-v [v ^long index value]
+    (case index
+      0 (.setX v value)
+      1 (.setY v value))))
 
 (extend-type Vector3f
   vector
   (add [v1 v2]      (.add v1 v2))
   (divide [v1 v2]   (.divide v1 (jvector3 v2)))
-  (multiply [v1 v2] (.multiply v1 (jvector3 v2)))
+  (multiply [v1 v2] (.mult v1 (jvector3 v2)))
   (negate [v]       (.negate v))
   (subtract [v1 v2] (.subtract v1 v2))
   (get-jme-vector [v] v)
@@ -75,23 +81,24 @@
   vector
   (add [v1 v2]      (.add v1 v2))
   (divide [v1 v2]   (.divide v1 (jvector4 v2)))
-  (multiply [v1 v2] (.multiply v1 (jvector4 v2)))
+  (multiply [v1 v2] (.mult v1 (jvector4 v2)))
   (negate [v]       (.negate v))
   (subtract [v1 v2] (.subtract v1 v2))
   (get-jme-vector [v] v)
   (get-v [v index] (.get v index))
   (set-v [v index value] (.set v index value)))
 
+(defn div-mult [v obj f]
+  (cond
+    (sequential? obj) (mapv f v obj)
+    (number? obj) (mapv #(f % obj) v)
+    :else (util/convert-err obj)))
+
 (extend-type PersistentVector
   vector
   (add [v1 v2] (mapv clj/+ v1 v2))
-  (divide [v1 v2] (mapv / v1 v2))
-  (multiply [v1 obj]
-    (cond
-      (sequential? obj) (mapv clj/* v1 obj)
-      (number? obj) (mapv #(clj/* % obj) v1)
-      :else (util/arg-err
-              "cannot multiply" v1 "with" obj)))
+  (divide [v obj] (div-mult v obj /))
+  (multiply [v obj] (div-mult v obj *))
   (negate [v] (mapv clj/- v))
   (subtract [v1 v2] (mapv clj/- v1 v2))
   (get-jme-vector [v]
