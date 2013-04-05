@@ -1,5 +1,5 @@
 (ns monker.test.ui
-  (:use [monker.ui]
+  (:use monker.core
         (monker.ui element))
   (:require [monker.core :as mkr]))
 
