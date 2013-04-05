@@ -16,7 +16,15 @@
            com.jme3.scene.Node
            (com.jme3.scene.shape Box Sphere Line)))
 
-(def config! c/config!)
+(defmacro import-symbols [ns-symbol symbols]
+  `(do ~@(for [s symbols]
+           (let [qualified (symbol (str ns-symbol "/" s))
+                 doc (str "Mirrored from " qualified ".")]
+             `(def ~s ~doc ~qualified)))))
+
+(import-symbols
+  monker.configure
+  [config!])
 
 ;; =====
 ;; Vector (Vector2f, Vector3f, Vector4f)
