@@ -1,10 +1,11 @@
 (ns monker.jme.vector
   (:require [monker.util :as util]
             [clojure.core :as clj]
+            clojure.core.matrix
             (clojure.core.matrix
               [implementations :as m-imp]
               [protocols :as matrix-protocols]
-              compliance-tester))
+              [compliance-tester :as ct]))
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
            (clojure.lang PersistentVector))
   (:refer-clojure :exclude [+ - * vector]))
@@ -196,27 +197,59 @@
 ;; =====
 ;; clojure.core.matrix
 ;; =====
-; (def jme-vector-implementation
-;   (reify matrix-protocols/PImplementation
-;     (implementation-key [m] ::jme-vector)
-;     (construct-matrix [m data]
-;       (let [dim (matrix-protocols/dimensionality data)]
-;         (if (==  1)
-;           (matrix-protocols/new-vector m dim)
-;           (util/arg-err "cannot construct matrix.")
-;           )))
-;     (new-vector [m length]
-;       (case (int length)
-;         2 (Vector2f.)
-;         3 (Vector3f.)
-;         4 (Vector4f.)))
-;     (new-matrix [m rows columns]
-;       (util/arg-err "cannot construct matrix."))
-;     (new-matrix-nd [m shape]
-;       (if (== (count shape) 1)
-;         (matrix-protocols/new-vector m (int (first shape)))
-;         (util/arg-err "cannot construct matrix.")))
-;     (supports-dimensionality? [m dimensions] (== dimensions 1))))
+(defrecord Vector0f [v])
 
-; (m-imp/register-implementation jme-vector-implementation)
-; (clojure.core.matrix.compliance-tester/compliance-test jme-vector-implementation)
+(defrecord Vector1f [v])
+
+(def jme-vector-implementation
+  (reify matrix-protocols/PImplementation
+    (implementation-key [m] ::jme-vector)
+    (construct-matrix [m data]
+      (let [dim (matrix-protocols/dimensionality data)]
+        (if (==  1)
+          (matrix-protocols/new-vector m dim)
+          (util/arg-err "cannot construct matrix.")
+          )))
+    (new-vector [m length]
+      (case (int length)
+        0 (Vector0f. 0)
+        1 (Vector1f. 0)
+        2 (Vector2f.)
+        3 (Vector3f.)
+        4 (Vector4f.)))
+    (new-matrix [m rows columns]
+      (util/arg-err "cannot construct matrix."))
+    (new-matrix-nd [m shape]
+      (if (== (count shape) 1)
+        (matrix-protocols/new-vector m (int (first shape)))
+        (util/arg-err "cannot construct matrix.")))
+    (supports-dimensionality? [m dimensions] (== dimensions 1))))
+
+(m-imp/register-implementation jme-vector-implementation)
+
+(defn compliance-test
+  "Runs the compliance test suite on a given matrix implementation.
+m can be either a matrix instance or the implementation keyword."
+  [m]
+  (let [im (m-imp/get-canonical-object m)
+        ik (m-imp/get-implementation-key im)]
+    (binding [clojure.core.matrix/*matrix-implementation* ik]
+      (ct/instance-test im)
+      ;(test-implementation im)
+      ;(test-assumptions-for-all-sizes im)
+      ;(test-coerce-via-vectors im)
+      ;(when (supports-dimensionality? im 2)
+      ;  (matrix-tests-2d im))
+      ;(when (supports-dimensionality? im 1)
+      ;  (vector-tests-1d im))
+      ;(test-array-interop im)
+      ;(test-numeric-functions im)
+      ;(test-dimensionality im)
+      ;(test-new-matrices im)
+      )))
+
+;(compliance-test jme-vector-implementation)
+
+;(clojure.core.matrix.compliance-tester/compliance-test jme-vector-implementation)
+
+;(println (matrix-protocols/is-scalar? 3))
