@@ -159,6 +159,14 @@
   "Set the z component of v to new-z."
   [v new-z] (set-v v 2 new-z))
 
+(defn w
+  "Get the w component of v."
+  [v] (get-v v 3))
+
+(defn w!
+  "Set the w component of v to new-w"
+  [v new-w] (set-v v 3 new-w))
+
 (defn jvector
   "Create a Vector2f, Vector3f or Vector4f.
   
