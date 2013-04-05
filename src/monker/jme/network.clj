@@ -132,7 +132,7 @@
         (.send ^HostedConnection obj msg)
       (instance? Server obj)
         (.broadcast ^Server obj msg)
-      :else (util/arg-err ))))
+      :else (util/convert-err obj))))
 
 (defn close!
   ([obj] (.close obj))
