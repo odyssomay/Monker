@@ -1,6 +1,10 @@
 (ns monker.jme.vector
   (:require [monker.util :as util]
-            [clojure.core :as clj])
+            [clojure.core :as clj]
+            (clojure.core.matrix
+              [implementations :as m-imp]
+              [protocols :as matrix-protocols]
+              compliance-tester))
   (:import (com.jme3.math Vector2f Vector3f Vector4f)
            (clojure.lang PersistentVector))
   (:refer-clojure :exclude [+ - * vector]))
@@ -98,7 +102,7 @@
   vector
   (add [v1 v2] (mapv clj/+ v1 v2))
   (divide [v obj] (div-mult v obj /))
-  (multiply [v obj] (div-mult v obj *))
+  (multiply [v obj] (div-mult v obj clj/*))
   (negate [v] (mapv clj/- v))
   (subtract [v1 v2] (mapv clj/- v1 v2))
   (get-jme-vector [v]
@@ -188,3 +192,31 @@
   ([x y]     (jvector2 x y))
   ([x y z]   (jvector3 x y z))
   ([x y z w] (jvector4 x y z w)))
+
+;; =====
+;; clojure.core.matrix
+;; =====
+; (def jme-vector-implementation
+;   (reify matrix-protocols/PImplementation
+;     (implementation-key [m] ::jme-vector)
+;     (construct-matrix [m data]
+;       (let [dim (matrix-protocols/dimensionality data)]
+;         (if (==  1)
+;           (matrix-protocols/new-vector m dim)
+;           (util/arg-err "cannot construct matrix.")
+;           )))
+;     (new-vector [m length]
+;       (case (int length)
+;         2 (Vector2f.)
+;         3 (Vector3f.)
+;         4 (Vector4f.)))
+;     (new-matrix [m rows columns]
+;       (util/arg-err "cannot construct matrix."))
+;     (new-matrix-nd [m shape]
+;       (if (== (count shape) 1)
+;         (matrix-protocols/new-vector m (int (first shape)))
+;         (util/arg-err "cannot construct matrix.")))
+;     (supports-dimensionality? [m dimensions] (== dimensions 1))))
+
+; (m-imp/register-implementation jme-vector-implementation)
+; (clojure.core.matrix.compliance-tester/compliance-test jme-vector-implementation)
