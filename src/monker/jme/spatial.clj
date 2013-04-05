@@ -38,3 +38,7 @@
             :node node
             :geometry geometry)]
     (apply f options)))
+
+(defn ^Spatial into-spatial
+  ""
+  [& options])

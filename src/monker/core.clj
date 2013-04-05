@@ -4,8 +4,9 @@
                 conf-int configure-helper]])
   (:require (monker [configure :as c]
                     [util :as util])
-            (monker.jme 
-              [input :as input])
+            (monker.jme
+              [input :as input]
+              spatial)
             (monker.ui
               [element :as element]))
   (:import com.jme3.asset.AssetManager
@@ -34,6 +35,10 @@
 (import-symbols
   monker.configure
   [config!])
+
+(import-symbols
+  monker.jme.spatial
+  [into-spatial])
 
 ;; =====
 ;; Application Settings
