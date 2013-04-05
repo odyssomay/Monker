@@ -126,21 +126,19 @@
     options))
 
 (defn vec->element
-  {:arglists '([v]
-               [v style])}
-  ([v] (vec->element v nil))
-  ([v s]
-   (let [{:keys [id type]} (tree/split-id-class-keyword (first v))
-         options (vec->options (rest v))
-         options (assoc options
-                   :items
-                   (map #(into-element % s)
-                        (:items options)))
-         options (if id
-                   (assoc options :id id)
-                   options)
-         options (reduce concat options)]
-     (apply element (keyword type) options))))
+  {:arglists '([v])}
+  [v]
+  (let [{:keys [id type]} (tree/split-id-class-keyword (first v))
+        options (vec->options (rest v))
+        options (assoc options
+                  :items
+                  (map #(into-element % s)
+                       (:items options)))
+        options (if id
+                  (assoc options :id id)
+                  options)
+        options (reduce concat options)]
+    (apply element (keyword type) options)))
 
 (defn into-element
   "Convert element into an element.
@@ -151,11 +149,9 @@
    
    A vector.
   "
-  {:arglists '([element]
-               [element style])}
-  ([el] (into-element el nil))
-  ([el s]
-   (cond
-     (instance? ElementBuilder el) el
-     (vector? el) (vec->element el)
-     :else (util/convert-err el))))
+  {:arglists '([element])}
+  [el]
+  (cond
+    (instance? ElementBuilder el) el
+    (vector? el) (vec->element el)
+    :else (util/convert-err el)))
