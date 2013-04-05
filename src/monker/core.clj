@@ -378,10 +378,6 @@
 ;; =====
 ;; Nifty
 ;; =====
-
-;; =====
-;; Nifty
-;; =====
 (defn ^NiftyJmeDisplay nifty-display
   "Create a NiftyJmeDisplay
   and attach it to the application.
