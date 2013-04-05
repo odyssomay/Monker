@@ -36,6 +36,9 @@
          :else (util/convert-err v)))
   ([x y z w] (Vector4f. x y z w)))
 
+;; =====
+;; Abstraction
+;; =====
 (defprotocol vector
   (add [v1 v2])
   (divide [v1 v2])
@@ -102,6 +105,7 @@
     (assoc-in v [index] value)))
  
 (defn +
+  ""
   ([v] v)
   ([v1 v2]
    (add v1 v2))
@@ -109,11 +113,13 @@
    (apply + (+ v1 v2) v3 more)))
 
 (defn -
+  ""
   ([v] (negate v))
   ([v1 v2]
    (subtract v1 v2)))
 
 (defn *
+  ""
   ([v] v)
   ([v1 obj]
    (multiply v1 obj))
@@ -121,18 +127,37 @@
    (apply * (* v1 v2) v3 more)))
 
 (defn div
+  ""
   ([v] v)
   ([v1 obj]
    (divide v1 obj)))
 
-(defn x [v] (get-v v 0))
-(defn x! [v new-x] (set-v v 0 new-x))
+;; ======
+;; Set/get
+;; ======
+(defn x
+  ""
+  [v] (get-v v 0))
 
-(defn y [v] (get-v v 1))
-(defn y! [v new-y] (set-v v 1 new-y))
+(defn x!
+  ""
+  [v new-x] (set-v v 0 new-x))
 
-(defn z [v] (get-v v 2))
-(defn z! [v new-z] (set-v v 2 new-z))
+(defn y
+  ""
+  [v] (get-v v 1))
+
+(defn y!
+  ""
+  [v new-y] (set-v v 1 new-y))
+
+(defn z
+  ""
+  [v] (get-v v 2))
+
+(defn z!
+  ""
+  [v new-z] (set-v v 2 new-z))
 
 (defn jvector
   "Create a Vector2f, Vector3f or Vector4f.
