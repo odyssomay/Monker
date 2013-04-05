@@ -181,4 +181,3 @@
   ([x y]     (jvector2 x y))
   ([x y z]   (jvector3 x y z))
   ([x y z w] (jvector4 x y z w)))
-  
