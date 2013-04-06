@@ -14,6 +14,7 @@
 ;; =====
 
 (defn dash-to-camel [string]
-  (let [words (.split ^String string "-")
+  (let [string (name string)
+        words (.split ^String string "-")
         capitalized (map cstr/capitalize (rest words))]
     (apply str (first words) capitalized)))
