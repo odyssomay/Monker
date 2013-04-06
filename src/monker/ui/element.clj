@@ -1,5 +1,6 @@
 (ns monker.ui.element
   (:require (monker [configure :as c]
+                    [tree :as tree]
                     [util :as util])
             (monker.ui configure-element controls))
   (:import (de.lessvoid.nifty.builder
