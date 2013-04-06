@@ -46,6 +46,25 @@
   (doseq [item items]
     (add-item el item)))
 
+(defn add-effects [^ElementBuilder el effects]
+  (let [{:keys [active click custom end-hover
+                end-screen focus get-focus
+                hide hover lost-focus show
+                start-hover start-screen]} effects]
+    (if active       (.onActiveEffect el active))
+    (if click        (.onClickEffect el click))
+    (if custom       (.onCustomEffect el custom))
+    (if end-hover    (.onEndHoverEffect el end-hover))
+    (if end-screen   (.onEndScreenEffect el end-screen))
+    (if focus        (.onFocusEffect el focus))
+    (if get-focus    (.onGetFocusEffect el get-focus))
+    (if hide         (.onHideEffect el hide))
+    (if hover        (.onHoverEffect el hover))
+    (if lost-focus   (.onLostFocusEffect el lost-focus))
+    (if show         (.onShowEffect el show))
+    (if start-hover  (.onStartHoverEffect el start-hover))
+    (if start-screen (.onStartScreenEffect el start-screen))))
+
 (defn configure-element-builder
   [^ElementBuilder this params]
   (c/configure-helper
@@ -55,6 +74,7 @@
     :background-image (.backgroundImage this param)
     :color (.color this ^Color (color param))
     :controller (.controller this ^Controller param)
+    :effects (add-effects this param)
     :focusable? (.focusable this (boolean param))
     :font (.font this param)
     :halign (case param
