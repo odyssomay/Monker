@@ -133,7 +133,7 @@
         options (vec->options (rest v))
         options (assoc options
                   :items
-                  (map #(into-element % s)
+                  (map #(into-element %)
                        (:items options)))
         options (if id
                   (assoc options :id id)
