@@ -1,15 +1,17 @@
 (ns monker.jme.spatial
-  (:import (com.jme3.scene Geometry Mesh Spatial)
+  (:require (monker [configure :as c])
+            (monker.jme [vector :as v]))
+  (:import (com.jme3.scene Geometry Mesh Node Spatial)
            (com.jme3.math ColorRGBA Vector3f)))
 
 (extend-type Spatial
-  Configurable
+  c/Configurable
   (configure [s params]
-    (configure-helper 
+    (c/configure-helper 
       params param
-      :translation (.setLocalTranslation s (jvector param))
+      :translation (.setLocalTranslation s (v/jvector param))
       :scale (.setLocalScale s
-               ^Vector3f (jvector3 param))
+               ^Vector3f (v/jvector3 param))
       :material (.setMaterial s param)
       )))
 
@@ -24,8 +26,8 @@
         (if (string? (first args))
           args
           (cons (str (gensym)) args))]
-    (conf-int (Geometry. name mesh)
-              options)))
+    (c/conf-int (Geometry. name mesh)
+                options)))
 
 (defn ^Node node
   ""
