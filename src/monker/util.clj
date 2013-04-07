@@ -83,4 +83,5 @@
        color
        (map #(int (* % 255)))
        (map #(format "%02x" %))
-       (apply str)))
+       (apply str)
+       (str "#")))
