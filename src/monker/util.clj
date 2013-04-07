@@ -1,5 +1,7 @@
 (ns monker.util
-  (:require [clojure.string :as cstr]))
+  (:require (clojure
+              [edn :as edn]
+              [string :as cstr])))
 
 (defmacro arg-err [& err]
   `(throw (IllegalArgumentException.
@@ -18,3 +20,52 @@
         words (.split ^String string "-")
         capitalized (map cstr/capitalize (rest words))]
     (apply str (first words) capitalized)))
+
+;; =====
+;; Color
+;; =====
+(defn float-color [coll]
+  (map #(float (/ % 255)) coll))
+
+(defn rgba-color [string]
+  (let [vs (vec (map (comp int edn/read-string)
+                     (re-seq #"\d+" string)))
+        vs (float-color vs)]
+    (case (count vs)
+      3 (conj vs 1.0)
+      4 vs
+      (convert-err string))))
+
+(defn hex-color [string]
+  (let [string (subs string 1)
+        string (case (count string)
+                 3 (str string "f")
+                 4 string
+                 6 (str string "ff")
+                 8 string
+                 (arg-err
+                   string
+                   "is not a valid hex color."))
+        vs-raw (if (== (count string) 4)
+                 (map #(str % %) string)
+                 (map #(apply str %)
+                      (partition 2 string)))
+        vs (map #(edn/read-string
+                   (str "0x" %))
+                vs-raw)]
+    (float-color vs)))
+    
+(defn string->color [string]
+  (cond
+    (re-matches #"rgba?\([ \d]+,[ \d]+,[ \d]+\)"
+                string)
+     (rgba-color string)
+    (re-matches #"#[\dA-Fa-f]{3,4}" string)
+     (hex-color string)
+    ))
+
+(defn color
+  [obj]
+  (string? obj) (string->color obj)
+  (sequential? obj) obj
+  :else (convert-err obj))
