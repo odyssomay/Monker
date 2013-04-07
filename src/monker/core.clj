@@ -1,7 +1,9 @@
 (ns monker.core
   (:use [monker.configure
          :only [Configurable
-                conf-int configure-helper]])
+                conf-int configure-helper]]
+        [monker.jme.vector
+         :only [jvector jvector3]])
   (:require (monker [configure :as c]
                     [util :as util])
             (monker.jme
