@@ -64,19 +64,23 @@
      (hex-color string)
     ))
 
+(defn clamp-color [coll]
+  (map #(max 0.0 (min 1.0 %)) coll))
+
 (defn color
   [obj]
-  (cond
-    (string? obj) (string->color obj)
-    (number? obj) (concat (repeat 3 obj)
-                          [1.0])
-    (sequential? obj)
-    (case (count obj)
-      3 (concat obj [1.0])
-      4 obj
-      (arg-err
-        obj "is not of length 3 or 4."))
-    :else (convert-err obj)))
+  (clamp-color
+    (cond
+      (string? obj) (string->color obj)
+      (number? obj) (concat (repeat 3 obj)
+                            [1.0])
+      (sequential? obj)
+      (case (count obj)
+        3 (concat obj [1.0])
+        4 obj
+        (arg-err
+          obj "is not of length 3 or 4."))
+      :else (convert-err obj))))
 
 (defn color->hex [c]
   (->> c
