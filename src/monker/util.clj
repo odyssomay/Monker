@@ -77,3 +77,10 @@
       (arg-err
         obj "is not of length 3 or 4."))
     :else (convert-err obj)))
+
+(defn color->hex [c]
+  (->> c
+       color
+       (map #(int (* % 255)))
+       (map #(format "%02x" %))
+       (apply str)))
