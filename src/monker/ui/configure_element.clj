@@ -1,6 +1,7 @@
 (ns monker.ui.configure-element
   (:use [monker.ui.tools :only [color]])
-  (:require (monker [configure :as c]))
+  (:require (monker [configure :as c])
+            (monker.ui [effect :as effect]))
   (:import de.lessvoid.nifty.controls.Controller
            de.lessvoid.nifty.tools.Color
            (de.lessvoid.nifty.builder
@@ -46,24 +47,29 @@
   (doseq [item items]
     (add-item el item)))
 
+(defmacro add-effect [fn effects]
+  `(doseq [effect# ~effects]
+     (if effect#
+       (~fn ~'el (effect/into-effect effect#)))))
+
 (defn add-effects [^ElementBuilder el effects]
   (let [{:keys [active click custom end-hover
                 end-screen focus get-focus
                 hide hover lost-focus show
                 start-hover start-screen]} effects]
-    (if active       (.onActiveEffect el active))
-    (if click        (.onClickEffect el click))
-    (if custom       (.onCustomEffect el custom))
-    (if end-hover    (.onEndHoverEffect el end-hover))
-    (if end-screen   (.onEndScreenEffect el end-screen))
-    (if focus        (.onFocusEffect el focus))
-    (if get-focus    (.onGetFocusEffect el get-focus))
-    (if hide         (.onHideEffect el hide))
-    (if hover        (.onHoverEffect el hover))
-    (if lost-focus   (.onLostFocusEffect el lost-focus))
-    (if show         (.onShowEffect el show))
-    (if start-hover  (.onStartHoverEffect el start-hover))
-    (if start-screen (.onStartScreenEffect el start-screen))))
+    (add-effect .onActiveEffect active)
+    (add-effect .onClickEffect click)
+    (add-effect .onCustomEffect custom)
+    (add-effect .onEndHoverEffect end-hover)
+    (add-effect .onEndScreenEffect end-screen)
+    (add-effect .onFocusEffect focus)
+    (add-effect .onGetFocusEffect get-focus)
+    (add-effect .onHideEffect hide)
+    (add-effect .onHoverEffect hover)
+    (add-effect .onLostFocusEffect lost-focus)
+    (add-effect .onShowEffect show)
+    (add-effect .onStartHoverEffect start-hover)
+    (add-effect .onStartScreenEffect start-screen)))
 
 (defn configure-element-builder
   [^ElementBuilder this params]
