@@ -50,10 +50,21 @@
     (fn [app]
       (ui app
           :screens [[:screen#start
-                     [:layer
+                     [:layer {:layout :center}
                       [:panel {:width "50%"
                                :height "50%"
-                               :background "#f00"}]]]]
+                               :background "#f00"
+                               :padding "10px"
+                               :margin "10px"
+                               :effects
+                               {:start-screen
+                                [[:border :parameters
+                                  {:color "#ff0f"
+                                   :border "10px"
+                                   :length "infinite"}]
+                                 [:fade
+                                  ]]
+                                }}]]]]
           :start-screen :start))
     :settings {:vsync? true}))
 
