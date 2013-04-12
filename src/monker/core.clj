@@ -42,6 +42,10 @@
   monker.jme.spatial
   [into-spatial])
 
+(import-symbols
+  monker.jme.vector
+  [jvector jvector2 jvector3 jvector4])
+
 ;; =====
 ;; Application Settings
 ;; =====
