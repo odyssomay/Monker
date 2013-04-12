@@ -90,7 +90,7 @@
                      (util/arg-err
                        ":id option required for element type "
                        type)))
-        options (if-not (= type :screen)
+        options (if (not= (name type) "screen")
                   (merge {:layout :horizontal}
                          options)
                   options)
