@@ -172,19 +172,3 @@
     (doseq [c children]
       (apply-style-f c sub-style f))
     nil))
-
-;; =====
-;; JME specific
-;; =====
-(defn apply-options-to-node [node options]
-  (println "applying" options "to" (:object node) "."))
-
-(defn style!
-  ""
-  [node style]
-  (apply-style-f node style apply-options-to-node))
-
-(defn node
-  ""
-  [v]
-  )
