@@ -95,21 +95,21 @@
                          options)
                   options)
         builder
-        (case type
-          :image  (ImageBuilder.)
-          :layer  (LayerBuilder.)
-          :panel  (PanelBuilder.)
-          :popup  (PopupBuilder.)
-          :screen (ScreenBuilder. (get-id))
-          :text   (TextBuilder.)
+        (case (name type)
+          "image"  (ImageBuilder.)
+          "layer"  (LayerBuilder.)
+          "panel"  (PanelBuilder.)
+          "popup"  (PopupBuilder.)
+          "screen" (ScreenBuilder. (get-id))
+          "text"   (TextBuilder.)
           ;; controls
-          :button (ButtonBuilder. (get-id))
-          :checkbox (CheckboxBuilder.)
-          :console (ConsoleBuilder. (get-id))
-          :drop-down (DropDownBuilder. (get-id))
-          :image-select (ImageSelectBuilder. (get-id))
-          :label (LabelBuilder.)
-          :list-box (ListBoxBuilder.))]
+          "button" (ButtonBuilder. (get-id))
+          "checkbox" (CheckboxBuilder.)
+          "console" (ConsoleBuilder. (get-id))
+          "drop-down" (DropDownBuilder. (get-id))
+          "image-select" (ImageSelectBuilder. (get-id))
+          "label" (LabelBuilder.)
+          "list-box" (ListBoxBuilder.))]
     (c/conf-int builder options)))
 
 (declare into-element)
