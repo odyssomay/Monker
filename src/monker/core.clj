@@ -393,7 +393,6 @@
   (let [style (tree/into-style style)]
     (tree/apply-style-f node style
       (fn [node options]
-        (println "##styling" (:object node) "with" (pr-str options))
         (c/conf-int (:object node)
                     options)))))
 
