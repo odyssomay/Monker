@@ -109,7 +109,8 @@
           "drop-down" (DropDownBuilder. (get-id))
           "image-select" (ImageSelectBuilder. (get-id))
           "label" (LabelBuilder.)
-          "list-box" (ListBoxBuilder.))]
+          "list-box" (ListBoxBuilder.)
+          (util/arg-err "invalid element type:" type))]
     (c/conf-int builder options)))
 
 (defn into-object [m]
