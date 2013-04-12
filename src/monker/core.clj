@@ -3,6 +3,7 @@
          :only [Configurable
                 conf-int configure-helper]])
   (:require (monker [configure :as c]
+                    [tree :as tree]
                     [util :as util])
             (monker.jme
               [input :as input]
@@ -386,6 +387,17 @@
    (Line. (jvector start) (jvector end))))
 
 ;; =====
+;; Style
+;; =====
+(defn style! [node style]
+  (let [style (tree/into-style style)]
+    (tree/apply-style-f node style
+      (fn [node options]
+        (println "##styling" (:object node) "with" (pr-str options))
+        (c/conf-int (:object node)
+                    options)))))
+
+;; =====
 ;; Nifty
 ;; =====
 (defn ^NiftyJmeDisplay nifty-display
@@ -434,8 +446,10 @@
     (.loadStyleFile nifty "nifty-default-styles.xml")
     (.loadControlFile nifty "nifty-default-controls.xml")
     (doseq [screen screens]
-      (let [e ^ScreenBuilder (:object (element/into-element screen))
-            built (.build e nifty)]
-        (.addScreen nifty (.getScreenId built) built)))
+      (let [node (element/into-element screen)]
+        (if style (style! node style))
+        (let [e ^ScreenBuilder (:object node)
+              built (.build e nifty)]
+          (.addScreen nifty (.getScreenId built) built))))
     (.gotoScreen nifty (or (name start-screen) "start"))
     nifty-display))
