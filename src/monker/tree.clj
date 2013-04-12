@@ -52,7 +52,7 @@
         [options & children] (if (map? (first more))
                                more (cons {} more))
         {:keys [id type classes] :as selector}
-        (into-selector k)
+         (into-selector k)
         children (map #(vec->node % into-object)
                       (flatten-children children))
         m {:selector selector
