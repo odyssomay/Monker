@@ -431,6 +431,8 @@
   (let [{:keys [style screens start-screen]} options
         nifty-display (nifty-display obj)
         nifty (nifty nifty-display)]
+    (.loadStyleFile nifty "nifty-default-styles.xml")
+    (.loadControlFile nifty "nifty-default-controls.xml")
     (doseq [screen screens]
       (let [e ^ScreenBuilder (element/into-element screen)
             built (.build e nifty)]
