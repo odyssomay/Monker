@@ -112,34 +112,15 @@
           "list-box" (ListBoxBuilder.))]
     (c/conf-int builder options)))
 
-(declare into-element)
-(defn vec->options [v]
-  (let [[options & children]
-        (if (map? (first v))
-          v (cons {} v))
-        children (reduce (fn [v n]
-                           (if (list? n)
-                             (vec (concat v n))
-                             (conj v n)))
-                         [] children)
-        options (merge {:items children}
-                       options)]
-    options))
-
-(defn vec->element
-  {:arglists '([v])}
-  [v]
-  (let [{:keys [id type]} (tree/split-id-class-keyword (first v))
-        options (vec->options (rest v))
-        options (assoc options
-                  :items
-                  (map #(into-element %)
-                       (:items options)))
-        options (if id
-                  (assoc options :id id)
-                  options)
-        options (reduce concat options)]
-    (apply element (keyword type) options)))
+(defn into-object [m]
+  (let [{:keys [selector options children]} m
+        {:keys [id type]} selector
+        options (cond-> options
+                        (and id (not (:id options)))
+                         (assoc :id id)
+                        true
+                         (assoc :items (map :object children)))]
+    (apply element type (reduce concat options))))
 
 (defn into-element
   "Convert element into an element.
@@ -155,5 +136,5 @@
   (cond
     (instance? ElementBuilder el) el
     (instance? ScreenBuilder el) el
-    (vector? el) (vec->element el)
+    (vector? el) (tree/vec->node el into-object)
     :else (util/convert-err el)))
