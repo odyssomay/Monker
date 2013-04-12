@@ -434,7 +434,7 @@
     (.loadStyleFile nifty "nifty-default-styles.xml")
     (.loadControlFile nifty "nifty-default-controls.xml")
     (doseq [screen screens]
-      (let [e ^ScreenBuilder (element/into-element screen)
+      (let [e ^ScreenBuilder (:object (element/into-element screen))
             built (.build e nifty)]
         (.addScreen nifty (.getScreenId built) built)))
     (.gotoScreen nifty (or (name start-screen) "start"))
