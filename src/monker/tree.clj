@@ -125,7 +125,7 @@
   (cond
     (map? (first styles)) (first styles)
     :else (let [styles (map vec->style (flatten-children
-                                 styles))]
+                                         styles))]
             (reduce merge-styles styles))))
 
 ;; Quering/applying
