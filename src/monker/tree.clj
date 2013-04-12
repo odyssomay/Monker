@@ -165,10 +165,11 @@
 
 (defn apply-style-f [node style f]
   (let [{:keys [selector children options]} node
-        options (merge (:options (select-style style selector))
-                       options)
+        style-options (:options (select-style style selector))
+        options (merge style-options options)
         sub-style (get-sub-style style selector)]
-    (f node options)
+    (when style-options
+      (f node options))
     (doseq [c children]
       (apply-style-f c sub-style f))
     nil))
