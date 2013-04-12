@@ -1,14 +1,13 @@
 (ns monker.core
   (:use [monker.configure
          :only [Configurable
-                conf-int configure-helper]]
-        [monker.jme.vector
-         :only [jvector jvector3]])
+                conf-int configure-helper]])
   (:require (monker [configure :as c]
                     [util :as util])
             (monker.jme
               [input :as input]
-              spatial)
+              spatial
+              vector)
             (monker.ui
               [element :as element]))
   (:import com.jme3.asset.AssetManager
