@@ -122,9 +122,11 @@
 
 (defn into-style
   [& styles]
-  (let [styles (map vec->style (flatten-children
+  (cond
+    (map? (first styles)) (first styles)
+    :else (let [styles (map vec->style (flatten-children
                                  styles))]
-    (reduce merge-styles styles)))
+            (reduce merge-styles styles))))
 
 ;; Quering/applying
 
