@@ -50,8 +50,8 @@
     (fn [app]
       (ui app
           :screens [[:screen#start
-                     [:layer#background {:layout :center}
-                      [:panel#inner
+                     [:layer#background.test-class {:layout :center}
+                      [:panel#inner.test-class
                        {:height "50%"
                         :background "#f00"
                         :padding "10px"
@@ -62,11 +62,25 @@
                            {:color "#ff0f"
                             :border "10px"
                             :length "infinite"}]
-                          [:fade
-                           ]]
-                         }}]]]]
+                          [:fade]]
+                         }}
+                       [:panel {:padding "10px" :background "#f0f"}
+                        [:panel {:width "10px"
+                                 :height "10px"
+                                 :margin "50px"
+                                 :background "#583"}]
+                        [:label.test-class2 {:label "hello world!"
+                                             :margin "20px"}]]
+                       [:label {:label "hello!"}]]]]]
           :style (list [:#background :background "#00f"]
-                       [:#inner :width "5%"])
+                       [:#inner :width "20%"]
+                       [:.test-class :layout :horizontal]
+                       [:.test-class2
+                        :effects {:start-screen
+                                  [[:border :parameters
+                                    {:color "#333"
+                                     :border "5px"
+                                     :length "infinite"}]]}])
           :start-screen :start))
     :settings {:vsync? true}))
 
