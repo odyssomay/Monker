@@ -399,6 +399,11 @@
 ;; =====
 ;; Nifty
 ;; =====
+(defrecord UI [nodes style nifty-display])
+
+(defmethod clojure.core/print-method UI [x writer]
+  (.write writer (str x)))
+
 (defn ^NiftyJmeDisplay nifty-display
   "Create a NiftyJmeDisplay
   and attach it to the application.
@@ -406,16 +411,17 @@
   {:arglists '([app])}
   [obj]
   (cond
+    (instance? UI obj) (:nifty-display obj)
     (instance? NiftyJmeDisplay obj) obj
     (instance? Application obj)
-    (let [app ^Application obj
-          nifty-display (NiftyJmeDisplay.
-                          (.getAssetManager app)
-                          (.getInputManager app)
-                          (.getAudioRenderer app)
-                          (.getGuiViewPort app))]
-      (.addProcessor (.getGuiViewPort app) nifty-display)
-      nifty-display)
+     (let [app ^Application obj
+           nifty-display (NiftyJmeDisplay.
+                           (.getAssetManager app)
+                           (.getInputManager app)
+                           (.getAudioRenderer app)
+                           (.getGuiViewPort app))]
+       (.addProcessor (.getGuiViewPort app) nifty-display)
+       nifty-display)
     :else (util/convert-err obj)))
 
 (defn ^Nifty nifty
@@ -423,8 +429,10 @@
   {:arglists '([nifty] [nifty-display])}
   [obj]
   (cond
+    (instance? UI obj)
+     (recur (:nifty-display obj))
     (instance? NiftyJmeDisplay obj)
-    (.getNifty ^NiftyJmeDisplay obj)
+     (.getNifty ^NiftyJmeDisplay obj)
     (instance? Nifty obj) obj
     :else (util/convert-err obj)))
 
@@ -440,15 +448,19 @@
                [nifty-display & options])}
   [obj & {:as options}]
   (let [{:keys [style screens start-screen]} options
+        style (if style (tree/into-style style))
         nifty-display (nifty-display obj)
         nifty (nifty nifty-display)]
     (.loadStyleFile nifty "nifty-default-styles.xml")
     (.loadControlFile nifty "nifty-default-controls.xml")
-    (doseq [screen screens]
-      (let [node (element/into-element screen)]
-        (if style (style! node style))
-        (let [e ^ScreenBuilder (:object node)
-              built (.build e nifty)]
-          (.addScreen nifty (.getScreenId built) built))))
-    (.gotoScreen nifty (or (name start-screen) "start"))
-    nifty-display))
+    (let [nodes
+          (doall
+            (for [screen screens]
+              (let [node (element/into-element screen)]
+                (if style (style! node style))
+                (let [e ^ScreenBuilder (:object node)
+                      built (.build e nifty)]
+                  (.addScreen nifty (.getScreenId built) built))
+                node)))]
+      (.gotoScreen nifty (or (name start-screen) "start"))
+      (UI. nodes style nifty-display))))
