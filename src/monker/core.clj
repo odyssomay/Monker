@@ -220,7 +220,7 @@
   [obj]
   (cond
     (asset-manager? obj) obj
-    (app?) (.getAssetManager ^Application obj)
+    (app? obj) (.getAssetManager ^Application obj)
     :else (util/convert-err obj)))
 
 (defn load-model
