@@ -1,6 +1,6 @@
 (ns monker.jme.physics
-  (:use [monker.util :only [Configurable
-                            conf-int configure-helper]])
+  (:use [monker.configure :only [Configurable
+                                 conf-int configure-helper]])
   (:import (com.jme3.bullet
              BulletAppState
              BulletAppState$ThreadingType)))
