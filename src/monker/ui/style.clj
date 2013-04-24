@@ -1,7 +1,7 @@
 (ns monker.ui.style
   (:require [clojure.string :as cstr]))
 
-(defn [border]
+(defn bla [border]
   (let [s (cstr/split #" " border)]
     (case (count s)
       )
