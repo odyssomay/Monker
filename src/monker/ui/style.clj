@@ -1,4 +1,4 @@
-(ns monker.jme.style
+(ns monker.ui.style
   (:require [clojure.string :as cstr]))
 
 (defn [border]
