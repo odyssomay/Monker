@@ -1,7 +1,7 @@
 # orbit
 
 orbit is under development, but the initial
-api can be found [here](http://odyssomay.github.com/Monker/doc/index.html)
+api can be found [here](http://odyssomay.github.com/orbit/doc/index.html)
 (fairly outdated, but still shows the gist of it).
 
 ## License
