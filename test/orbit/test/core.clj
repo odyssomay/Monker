@@ -1,5 +1,5 @@
-(ns monker.test.core
-  (:require [monker.core :as mkr]))
+(ns orbit.test.core
+  (:require [orbit.core :as mkr]))
 
 (defn application []
  (let [app (mkr/application :settings {}

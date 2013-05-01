@@ -1,7 +1,7 @@
-(ns monker.ui.configure-element
-  (:use [monker.ui.tools :only [color]])
-  (:require (monker [configure :as c])
-            (monker.ui [effect :as effect]))
+(ns orbit.ui.configure-element
+  (:use [orbit.ui.tools :only [color]])
+  (:require (orbit [configure :as c])
+            (orbit.ui [effect :as effect]))
   (:import de.lessvoid.nifty.controls.Controller
            de.lessvoid.nifty.tools.Color
            (de.lessvoid.nifty.builder

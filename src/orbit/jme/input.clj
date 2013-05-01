@@ -1,5 +1,5 @@
-(ns monker.jme.input
-  (:require (monker [util :as util]))
+(ns orbit.jme.input
+  (:require (orbit [util :as util]))
   (:import (com.jme3.input.controls
              ActionListener
              AnalogListener
@@ -73,7 +73,11 @@
    num lock
   "
   [ch]
-  (let [ch (if (char? ch) (str ch) ch)
+  (let [ch  (cond
+              (string? ch) ch
+              (keyword? ch) (name ch)
+              (char? ch) (str ch)
+              :else (util/convert-err ch))
         ch (.toLowerCase ^String ch)]
     (KeyTrigger.
       (case ch
@@ -221,12 +225,12 @@
   If argument is a Trigger, it is returned.
   
   If the argument is a string (key), a key-trigger
-  is created. See monker.input/key-trigger for details.
+  is created. See orbit.input/key-trigger for details.
   
   If a sequence is provided, the first element designates
   the type. Type can be any of: :key :mouse. The args
-  are then applied to either monker.input/key-trigger
-  or monker.input/mouse-trigger, respectively.
+  are then applied to either orbit.input/key-trigger
+  or orbit.input/mouse-trigger, respectively.
   "
   {:arglists '([trigger]
                [key]
@@ -234,7 +238,8 @@
   [tr]
   (cond
     (instance? Trigger tr) tr
-    (string? tr) (key-trigger tr)
+    (or (string? tr)
+        (keyword? tr)) (key-trigger tr)
     (sequential? tr)
     (let [[type v :as args] tr]
       (case type
@@ -245,9 +250,8 @@
                ":key :mouse, but got instead: "
                type))))
     :else (util/arg-err
-            "incorrect argument to monker.input/trigger,"
-            "see docstring for usage.")
-    ))
+            "incorrect argument to orbit.input/trigger,"
+            "see docstring for usage.")))
 
 (defn add-input-mappings
   "Add input mappings to the input manager
@@ -256,10 +260,10 @@
   mappings is a map where the keys denote
   which mapping should be triggered. It should
   match the keys provided to
-  monker.input/add-input-listeners.
+  orbit.input/add-input-listeners.
   
   The values should be a list of objects that
-  can be converted to a Trigger by monker.input/trigger.
+  can be converted to a Trigger by orbit.input/trigger.
   
   Example mappings:
   {:forward [\"up\" \"w\"]
@@ -269,7 +273,7 @@
    :zoom-in [[:mouse :axis :wheel :negative]]
    }
   
-  See monker.input/add-input-listeners for
+  See orbit.input/add-input-listeners for
   the corresponding listeners.
   "
   {:arglists '([app mappings]
@@ -353,10 +357,10 @@
   where each key is either a single keyword,
   or a list of keywords. Each keyword denotes
   which event to listen to (provided to
-  monker.input/add-input-mappings).
+  orbit.input/add-input-mappings).
   
   Values should either be an instance of ActionListener
-  or a function. See monker.input/action-listener for
+  or a function. See orbit.input/action-listener for
   more info on such functions.
   "
   {:arglists '([app listeners]
@@ -375,10 +379,10 @@
   where each key is either a single keyword,
   or a list of keywords. Each keyword denotes
   which event to listen to (provided to
-  monker.input/add-input-mappings).
+  orbit.input/add-input-mappings).
   
   Values should either be an instance of AnalogListener
-  or a function. See monker.input/analog-listener for
+  or a function. See orbit.input/analog-listener for
   more info on such functions.
   "
   {:arglists '([app listeners]

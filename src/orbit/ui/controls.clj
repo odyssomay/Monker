@@ -1,8 +1,8 @@
-(ns monker.ui.controls
-  (:use [monker.ui.configure-element :only [configure-element-builder]])
-  (:require (monker [configure :as c]
+(ns orbit.ui.controls
+  (:use [orbit.ui.configure-element :only [configure-element-builder]])
+  (:require (orbit [configure :as c]
                     [util :as util])
-            (monker.ui [tools :as tools]))
+            (orbit.ui [tools :as tools]))
   (:import (de.lessvoid.nifty.builder
              ControlBuilder)
            de.lessvoid.nifty.controls.button.builder.ButtonBuilder

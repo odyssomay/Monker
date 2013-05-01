@@ -1,15 +1,15 @@
-(ns monker.core
-  (:use [monker.configure
+(ns orbit.core
+  (:use [orbit.configure
          :only [Configurable
                 conf-int configure-helper]])
-  (:require (monker [configure :as c]
+  (:require (orbit [configure :as c]
                     [tree :as tree]
                     [util :as util])
-            (monker.jme
+            (orbit.jme
               [input :as input]
               spatial
               vector)
-            (monker.ui
+            (orbit.ui
               [element :as element]))
   (:import com.jme3.asset.AssetManager
            (com.jme3.math ColorRGBA Vector2f Vector3f Vector4f)
@@ -35,15 +35,15 @@
              `(def ~s ~doc ~qualified)))))
 
 (import-symbols
-  monker.configure
+  orbit.configure
   [config!])
 
 (import-symbols
-  monker.jme.spatial
+  orbit.jme.spatial
   [into-spatial])
 
 (import-symbols
-  monker.jme.vector
+  orbit.jme.vector
   [jvector jvector2 jvector3 jvector4])
 
 ;; =====
@@ -126,7 +126,7 @@
   are always executed in the application's thread. This can be
   achieved either by executing the change from the :init or :update
   functions, as these already run in the correct thread. From another
-  thread, monker.core/run-in-app can be used.
+  thread, orbit.core/run-in-app can be used.
   
   Options:
    :context-type  One of:
@@ -141,7 +141,7 @@
           Should take the app as argument.
     
    :settings  Either an AppSettings object, or a map
-              that is converted using monker.core/settings.
+              that is converted using orbit.core/settings.
    
    :show-fps  Default: true
    
@@ -160,8 +160,7 @@
          :or {update (fn [& _])
               stop (fn [& _])
               context-type :display}
-         :as arg-map} args
-        ]
+         :as arg-map} args]
     (if init
       (let [args (dissoc args :context-type :init :stop :update)
             ^SimpleApplication
@@ -174,7 +173,8 @@
                             (stop this)
                             (proxy-super destroy))))
                       args)]
-        (.start app (jme-app-type context-type))
+        (if-not (= context-type :canvas)
+          (.start app (jme-app-type context-type)))
         app)
       (util/req-err :init))))
 
@@ -227,7 +227,7 @@
   "Returns a Spatial.
   
   asset-manager is anything that goes into
-  monker.core/asset-manager."
+  orbit.core/asset-manager."
   {:arglists '([asset-manager path & options])}
   [am-obj path & {:as options}]
   (let [am (asset-manager am-obj)]
@@ -238,7 +238,7 @@
   "Returns AudioData.
   
   asset-manager is anything that goes into
-  monker.core/asset-manager."
+  orbit.core/asset-manager."
   {:arglists '([asset-manager path & options])}
   [am-obj path & {:as options}]
   (let [am (asset-manager am-obj)]

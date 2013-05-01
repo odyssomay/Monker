@@ -1,7 +1,8 @@
-# Monker
+# orbit
 
-Monker is under development, but the initial
-api can be found [here](http://odyssomay.github.com/Monker/doc/index.html).
+-Monker- orbit is under development, but the initial
+api can be found [here](http://odyssomay.github.com/Monker/doc/index.html)
+(fairly outdated, but still shows the gist of it).
 
 ## License
 

@@ -1,4 +1,4 @@
-(ns monker.configure)
+(ns orbit.configure)
 
 (defprotocol Configurable
   (configure [this params] ""))

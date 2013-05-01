@@ -1,5 +1,5 @@
-(ns monker.test.tree
-  (:use monker.tree))
+(ns orbit.test.tree
+  (:use orbit.tree))
 
 (defn test1 []
   (vec->style

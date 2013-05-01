@@ -1,7 +1,7 @@
-(ns monker.test.ui
-  (:use monker.core
-        (monker.ui element))
-  (:require [monker.core :as mkr]))
+(ns orbit.test.ui
+  (:use orbit.core
+        (orbit.ui element))
+  (:require [orbit.core :as mkr]))
 
 (defn test1 []
   (.setLevel (java.util.logging.Logger/getLogger "")

@@ -1,5 +1,5 @@
-(ns monker.jme.physics
-  (:use [monker.configure :only [Configurable
+(ns orbit.jme.physics
+  (:use [orbit.configure :only [Configurable
                                  conf-int configure-helper]])
   (:import (com.jme3.bullet
              BulletAppState

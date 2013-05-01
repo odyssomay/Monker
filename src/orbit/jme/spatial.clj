@@ -1,6 +1,6 @@
-(ns monker.jme.spatial
-  (:require (monker [configure :as c])
-            (monker.jme [vector :as v]))
+(ns orbit.jme.spatial
+  (:require (orbit [configure :as c])
+            (orbit.jme [vector :as v]))
   (:import (com.jme3.scene Geometry Mesh Node Spatial)
            (com.jme3.math ColorRGBA Vector3f)))
 

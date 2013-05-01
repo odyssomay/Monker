@@ -1,5 +1,5 @@
-(ns monker.tree
-  (:require (monker [configure :as c]
+(ns orbit.tree
+  (:require (orbit [configure :as c]
                     [util :as util])
             [clojure.string :as cstr]))
 

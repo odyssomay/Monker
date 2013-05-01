@@ -1,5 +1,5 @@
-(ns monker.ui.effect
-  (:require (monker [configure :as c]
+(ns orbit.ui.effect
+  (:require (orbit [configure :as c]
                     [util :as util]))
   (:import (de.lessvoid.nifty.builder
              EffectBuilder

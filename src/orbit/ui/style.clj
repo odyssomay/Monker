@@ -1,4 +1,4 @@
-(ns monker.ui.style
+(ns orbit.ui.style
   (:require [clojure.string :as cstr]))
 
 (defn bla [border]

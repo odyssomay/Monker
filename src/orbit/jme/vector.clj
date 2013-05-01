@@ -1,5 +1,5 @@
-(ns monker.jme.vector
-  (:require [monker.util :as util]
+(ns orbit.jme.vector
+  (:require [orbit.util :as util]
             [clojure.core :as clj]
             ; clojure.core.matrix
             ; (clojure.core.matrix
@@ -11,9 +11,9 @@
            (clojure.lang PersistentVector))
   (:refer-clojure :exclude [+ - * vector]))
 
-(defn jvector? [v] (or (instance? Vector2f)
-                       (instance? Vector3f)
-                       (instance? Vector4f)))
+(defn jvector? [v] (or (instance? Vector2f v)
+                       (instance? Vector3f v)
+                       (instance? Vector4f v)))
 
 (defn ^Vector2f jvector2
   "Create a Vector2f."
@@ -188,7 +188,7 @@
   ([v]
    (cond
      (jvector? v) v
-     (extends? v vector) (get-jme-vector v)
+     (extends? vector v) (get-jme-vector v)
      (sequential? v) (apply jvector v)
      :else (util/convert-err v)))
   ([x y]     (jvector2 x y))

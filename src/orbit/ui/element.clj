@@ -1,8 +1,8 @@
-(ns monker.ui.element
-  (:require (monker [configure :as c]
+(ns orbit.ui.element
+  (:require (orbit [configure :as c]
                     [tree :as tree]
                     [util :as util])
-            (monker.ui configure-element controls))
+            (orbit.ui configure-element controls))
   (:import (de.lessvoid.nifty.builder
              ControlBuilder
              ElementBuilder
@@ -128,7 +128,7 @@
   
   Element can either be:
    Of type ElementBuilder. This is what you get
-   from calling monker.ui/element.
+   from calling orbit.ui/element.
    
    A vector.
   "

@@ -1,5 +1,5 @@
-(ns monker.jme.network
-  (:require [monker.util :as util]
+(ns orbit.jme.network
+  (:require [orbit.util :as util]
             [clojure.edn :as edn])
   (:import (com.jme3.network
              Client Server
@@ -9,17 +9,20 @@
              MessageListener)))
 
 (com.jme3.network.serializing.Serializer/registerClass
-  monker.StringMessage)
+  orbit.StringMessage)
 
 (defn- string-message-listener [f]
   (reify MessageListener
-    (messageReceived [this source message]
-      (f source
-         (edn/read-string
-           (.getMessage message))))))
+    (messageReceived [this source str-message]
+      (let [message (.getMessage str-message)
+            obj (try (edn/read-string message)
+                  (catch Exception e
+                    (throw (Exception. (str "Failed to read "
+                                            (pr-str message))))))]
+        (f source obj)))))
 
 (defn string-message [obj]
-  (monker.StringMessage. (pr-str obj)))
+  (orbit.StringMessage. (pr-str obj)))
 
 (defn connection-listener [which on-connect on-disconnect]
   (case which
